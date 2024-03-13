@@ -62,17 +62,42 @@ export const getGeneralSettings = async () => {
 export const getPageList = async () => {
 	const data = await fetchAPI(
 	`
-	query pages {
+	query GetPages {
 		pages(where: {status: PUBLISH}) {
 			edges {
 				node {
-					uri,
+					slug,
 					title
 				}
 			}
 		}
 	}`
 	);
-	return data?.pages?.edges;
+	const res = [{
+		slug: data.pages.edges.slug,
+		title: data.pages.edges.title,
+	}];
+	console.log(res);
+	return res;
+}
+
+
+
+/**
+ * Get page.
+ */
+export const getPage = async(id: String) => {
+	const data = await fetchAPI(`
+		query pages {
+			page(id: ${id}, idType: URI) {
+				title
+				content
+			}
+		}
+	`);
+	return {
+		title: data.page.title,
+		content: data.page.content
+	}
 }
 

@@ -1,27 +1,30 @@
-import React, { ReactNode } from 'react';
-import Prompt from '../components/prompt';
-import Header from '../components/header';
-import Navigation from '../components/navigation';
+import React from 'react';
+import { promptObj } from '../shared/interfaces';
 
 
 
+/**
+ * File specific interfaces and types.
+ */
 interface Props {
-    content: String,
-    key: number
+    content: promptObj,
+    index: number
 }
 
 
 
-const PromptRow: React.FC<Props> = ({ content, key }) => {
+/**
+ * Element.
+ */
+const PromptRow: React.FC<Props> = ({ content, index }) => {
+    console.log(index);
     return (
-        <div className='text-amber-400 leading-normal px-4 py-1' key={key}>
-            <span className='font-bold mr-2'>{key}&gt;</span>
-            {content}
+        <div className='text-amber-400 leading-normal px-4 py-1 tracking-wider'>
+            <span className='font-bold mr-2'>{index} &gt;</span>
+            {content.command}
+            <div dangerouslySetInnerHTML={{ __html: content.result }}></div>
         </div>
     );
 };
-
-
-
 export default PromptRow;
 

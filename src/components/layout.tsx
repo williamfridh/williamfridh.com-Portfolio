@@ -2,20 +2,14 @@ import React, { ReactNode } from 'react';
 import Prompt from '../components/prompt';
 import Header from '../components/header';
 import Navigation from '../components/navigation';
+import { GeneralSettings, PageNode } from '../shared/interfaces';
 
 
 
-interface GeneralSettings {
-    title: string;
-    description: string;
-}
-
-interface PageNode {
-	title: string;
-	uri: string;
-}
-
-interface LayoutProps {
+/**
+ * File specific interfaces and types.
+ */
+interface Props {
     children: ReactNode;
     generalSettings: GeneralSettings;
     pageList: PageNode[];
@@ -23,7 +17,10 @@ interface LayoutProps {
 
 
 
-const Layout: React.FC<LayoutProps> = ({ children, generalSettings, pageList }) => {
+/**
+ * Element.
+ */
+const Layout: React.FC<Props> = ({ children, generalSettings, pageList }) => {
     return (
         <div>
             <Prompt />
@@ -36,5 +33,4 @@ const Layout: React.FC<LayoutProps> = ({ children, generalSettings, pageList }) 
     );
 }
 export default Layout;
-
 
