@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/layout';
 import 'tailwindcss/tailwind.css';
-import { getGeneralSettings, getPageList, getPage } from '../lib/api';
+import { getGeneralSettings, getPageSlugs, getPage } from '../lib/api';
 import { PageNode, GeneralSettings } from '../shared/interfaces';
 import { GetStaticProps } from 'next';
 
@@ -34,12 +34,10 @@ export default Home;
 /**
  * Get Static Paths.
  */
-export const getStaticPaths =(async () => {
-    const pageList = await getPageList();
-    //console.log("pageList:");
-    //console.log(pageList);
+export const getStaticPaths = (async () => {
+    const slugList = await getPageSlugs();
     return {
-        pageList,
+        paths: slugList,
         fallback: false, // Set to true if you want to enable fallback behavior
     };
 })
@@ -54,6 +52,7 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
     if (params && typeof params.slug === 'string') {
         slug = params.slug;
     }
+    console.log("Slug: " + slug);
     const page = await getPage(slug);
 	const generalSettings = await getGeneralSettings();
 	return {

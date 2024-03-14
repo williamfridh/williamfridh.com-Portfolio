@@ -1,3 +1,7 @@
+import { Page } from '../shared/interfaces';
+
+
+
 const API_URL = process.env.WORDPRESS_API_URL;
 
 
@@ -57,28 +61,47 @@ export const getGeneralSettings = async () => {
 
 
 /**
- * Get page list.
+ * Get page slugs.
  */
-export const getPageList = async () => {
+export const getPageSlugs = async () => {
 	const data = await fetchAPI(
 	`
 	query GetPages {
 		pages(where: {status: PUBLISH}) {
 			edges {
 				node {
-					slug,
-					title
+					slug
 				}
 			}
 		}
 	}`
 	);
-	const res = [{
-		slug: data.pages.edges.slug,
-		title: data.pages.edges.title,
-	}];
-	console.log(res);
-	return res;
+	return data.pages.edges.map(({node}: Page) => ( {params: {slug: node.slug}} ));
+}
+
+
+
+/**
+ * Get page list.
+ */
+export const getPageList = async () => {
+	const data = await fetchAPI(
+	`
+	query GetPageList {
+		pages(where: {status: PUBLISH}) {
+			edges {
+				node {
+					title,
+					slug
+				}
+			}
+		}
+	}`
+	);
+	return data.pages.edges.map(({node}: Page) => ({
+		title: node.title,
+		slug: node.slug
+	}));
 }
 
 
@@ -88,8 +111,8 @@ export const getPageList = async () => {
  */
 export const getPage = async(id: String) => {
 	const data = await fetchAPI(`
-		query pages {
-			page(id: ${id}, idType: URI) {
+		query GetPage {
+			page(id: "${id}", idType: URI) {
 				title
 				content
 			}

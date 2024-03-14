@@ -8,7 +8,7 @@ export interface Page {
 }
 
 export interface PageNode {
-	title: string;
+	title: string | null;
 	slug: string;
 }
 
