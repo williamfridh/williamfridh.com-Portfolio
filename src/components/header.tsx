@@ -18,8 +18,8 @@ interface Props {
 const Header: React.FC<Props> = ({ generalSettings }) => {
 	return (
 		<header>
-			<h1 className='text-5xl'>{generalSettings.title}</h1>
-			<h5 className='text-2xl'>{generalSettings.description}</h5>
+			<h1 className='text-8xl bg-amber-400 text-neutral-800 px-4'>{generalSettings.title}</h1>
+			<h5 className='text-2xl bg-amber-400 text-neutral-800 px-4 mt-1'>{generalSettings.description}</h5>
 		</header>
 	);
 };

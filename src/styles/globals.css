@@ -4,3 +4,71 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+/*
+================== TEXT ==================
+*/
+p {
+    max-width: 520px;
+}
+
+
+/*
+================== NEXT.JS ==================
+Opacity used for noise effect.
+*/
+#__next {
+	opacity: 0.94;
+}
+
+
+
+/*
+================== NOISE EFFECT ==================
+SRC: https://codepen.io/ooblek/pen/vYxYomx
+*/
+body::before {
+	content:"";
+	background-image:url("../../public/images/1k_Dissolve_Noise_Texture.png");
+	height: 300%;
+	width: 300%;
+	position: fixed;
+	animation: animateGrain 8s steps(10) infinite;
+}
+@keyframes animateGrain{
+	0%, 100% { transform:translate(0, 0) }
+	10%{
+	  	transform:translate(-5%,-10%)
+	}
+	20%{
+	  	transform:translate(-15%,-20%)
+	}
+	30%{
+	  	transform:translate(-5%,-10%)
+	}
+	40%{
+	  	transform:translate(-15%,-20%)
+	}
+	
+	50%{
+	  	transform:translate(-5%,-10%)
+	}
+	60%{
+	  	transform:translate(-15%,-20%)
+	}
+	70%{
+	  	transform:translate(-5%,-10%)
+	}
+	80%{
+	  	transform:translate(-15%,-20%)
+	}
+	90%{
+	  	transform:translate(-5%,-10%)
+	}
+	100%{
+	  	transform:translate(-15%,-20%)
+	}
+   
+}
+  

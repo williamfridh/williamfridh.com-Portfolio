@@ -76,6 +76,9 @@ const Prompt: React.FC<{}> = () => {
 			case ':help':
 				result = '# Help Commands<br />availiable is listed below.';
 				break;
+			case ':gurka':
+				result = 'Johan.';
+				break;
 			case ':version':
 				result = 'Version 1337.42';
 				break;
@@ -153,6 +156,7 @@ const Prompt: React.FC<{}> = () => {
 						p-4
 						focus:outline-none
 						tracking-wider
+						text-xl
 					' />
 				<input
 					type='submit'
@@ -167,6 +171,7 @@ const Prompt: React.FC<{}> = () => {
 						hover:bg-amber-400
 						hover:text-neutral-800
 						hover:cursor-pointer
+						text-3xl
 					' />
 			</form>
         </div>

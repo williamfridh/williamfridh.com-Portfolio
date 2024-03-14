@@ -17,12 +17,25 @@ interface Props {
  */
 const Navigation: React.FC<Props> = ({ pageList }) => {
 	return (
-		<header>
-			<Link href='/'>Home</Link>
+		<nav className='mt-2'>
 			{pageList.map(({slug, title}, key) => (
-				<Link href={'/' + slug} key={key}>{title}</Link>
+				<Link 
+					href={'/' + slug}
+					key={key}
+					className='
+					text-amber-400
+					text-3xl
+					flex
+					items-center
+					px-2
+					w-fit
+					hover:bg-amber-400
+					hover:text-neutral-800
+				'>
+					<span className='text-xs mr-2'>■</span><span>{title}</span>
+				</Link>
 			))}
-		</header>
+		</nav>
 	);
 }
 export default Navigation;

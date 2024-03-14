@@ -1,4 +1,4 @@
-import { Page } from '../shared/interfaces';
+import { Page, ProjectRaw } from '../shared/interfaces';
 
 
 
@@ -113,14 +113,61 @@ export const getPage = async(id: String) => {
 	const data = await fetchAPI(`
 		query GetPage {
 			page(id: "${id}", idType: URI) {
-				title
-				content
+			  title
+			  content
+			  customPageFields {
+				displayPortfolioElement
+			  }
 			}
-		}
+		  }
 	`);
 	return {
 		title: data.page.title,
-		content: data.page.content
+		content: data.page.content,
+		displayPortfolioElement: data.page.customPageFields.displayPortfolioElement
 	}
+}
+
+
+
+/**
+ * Get projects.
+ */
+export const getProjects = async () => {
+	const data = await fetchAPI(
+	`
+	query GetProjects {
+		projects(where: {status: PUBLISH}) {
+			nodes {
+					title
+					uri
+					link
+					projectFields {
+					techStack
+					start
+					end
+					link
+					role
+				}
+				featuredImage {
+					node {
+						uri
+					}
+				}
+			}
+		}
+	}
+	`
+	);
+	return data.projects.nodes.map((project: ProjectRaw) => ({
+		title: project.title,
+		uri: project.uri,
+		techStack: project.projectFields.techStack,
+		start: project.projectFields.start,
+		end: project.projectFields.end,
+		link: project.projectFields.link,
+		role: project.projectFields.role,
+		image: project.featuredImage ? project.featuredImage.node.uri : null
+	}));
 }
 
