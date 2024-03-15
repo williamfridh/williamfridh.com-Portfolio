@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PageNode } from '../shared/interfaces';
+import { MenuItem } from '../shared/interfaces';
 
 
 
@@ -7,7 +7,7 @@ import { PageNode } from '../shared/interfaces';
  * File specific interfaces and types.
  */
 interface Props {
-	pageList: PageNode[];
+	menuItems: MenuItem[];
 }
 
 
@@ -15,24 +15,24 @@ interface Props {
 /**
  * Element.
  */
-const Navigation: React.FC<Props> = ({ pageList }) => {
+const Navigation: React.FC<Props> = ({ menuItems }) => {
 	return (
 		<nav className='mt-2'>
-			{pageList.map(({slug, title}, key) => (
+			{menuItems.map(({label, order, uri}, key) => (
 				<Link 
-					href={'/' + slug}
+					href={uri}
 					key={key}
 					className='
-					text-amber-400
-					text-3xl
-					flex
-					items-center
-					px-2
-					w-fit
-					hover:bg-amber-400
-					hover:text-neutral-800
-				'>
-					<span className='text-xs mr-2'>■</span><span>{title}</span>
+						text-amber-400
+						text-3xl
+						flex
+						items-center
+						px-2
+						w-fit
+						hover:bg-amber-400
+						hover:text-neutral-800
+					'>
+					<span className='text-xs mr-2'>■</span><span>{label}</span>
 				</Link>
 			))}
 		</nav>

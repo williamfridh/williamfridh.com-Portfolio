@@ -60,3 +60,8 @@ interface ProjectFields {
 	role: 		string;
 }
 
+export interface MenuItem{
+	label: 	string;
+	order: 	number;
+	uri: 	string;
+}

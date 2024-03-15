@@ -1,4 +1,4 @@
-import { Page, ProjectRaw } from '../shared/interfaces';
+import { Page, ProjectRaw, MenuItem } from '../shared/interfaces';
 
 
 
@@ -126,6 +126,32 @@ export const getPage = async(id: String) => {
 		content: data.page.content,
 		displayPortfolioElement: data.page.customPageFields.displayPortfolioElement
 	}
+}
+
+
+
+/**
+ * Get Menu Items.
+ */
+export const getMenuItems = async() => {
+	const data = await fetchAPI(`
+		query getMenuItems {
+			menu(id: "Main Menu", idType: NAME) {
+				menuItems {
+					nodes {
+						label
+						order
+						uri
+					}
+				}
+			}
+		}
+	`);
+	return data.menu.menuItems.nodes.map((node: MenuItem) => ({
+		label: 	node.label,
+		order: 	node.order,
+		uri: 	node.uri
+	}));
 }
 
 

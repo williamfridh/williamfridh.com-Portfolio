@@ -17,7 +17,6 @@ interface Props {
  * Element.
  */
 const PromptRow: React.FC<Props> = ({ content, index }) => {
-    console.log(index);
     return (
         <div className='text-amber-400 leading-normal px-4 py-1 tracking-wider text-xl'>
             <span className='font-bold mr-2'>{index + 1} &gt;</span>

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import Prompt from '../components/prompt';
 import Header from '../components/header';
 import Navigation from '../components/navigation';
-import { GeneralSettings, PageNode } from '../shared/interfaces';
+import { GeneralSettings, MenuItem } from '../shared/interfaces';
 
 
 
@@ -12,7 +12,7 @@ import { GeneralSettings, PageNode } from '../shared/interfaces';
 interface Props {
     children: ReactNode;
     generalSettings: GeneralSettings;
-    pageList: PageNode[];
+    menuItems: MenuItem[];
 }
 
 
@@ -20,13 +20,13 @@ interface Props {
 /**
  * Element.
  */
-const Layout: React.FC<Props> = ({ children, generalSettings, pageList }) => {
+const Layout: React.FC<Props> = ({ children, generalSettings, menuItems }) => {
     return (
         <div>
             <Prompt />
-            <main className='bg-neutral-700 h-screen fixed w-3/4 right-0 p-8'>
+            <main className='bg-neutral-700 h-screen fixed w-3/4 right-0 p-8 overflow-scroll'>
                 <Header generalSettings={generalSettings} />
-                <Navigation pageList={pageList} />
+                <Navigation menuItems={menuItems} />
                 {children}
             </main>
         </div>
