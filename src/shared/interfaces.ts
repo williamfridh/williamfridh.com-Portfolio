@@ -62,6 +62,6 @@ interface ProjectFields {
 
 export interface MenuItem{
 	label: 	string;
-	order: 	number;
 	uri: 	string;
 }
+

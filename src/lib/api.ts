@@ -2,8 +2,9 @@ import { Page, ProjectRaw, MenuItem } from '../shared/interfaces';
 
 
 
-const API_URL = process.env.WORDPRESS_API_URL;
-
+const API_URL 	= process.env.WORDPRESS_API_URL;
+const MENU		= process.env.WORDPRESS_MENU;
+const SOCIAL	= process.env.WORDPRESS_SOCIAL;
 
 
 /**
@@ -76,7 +77,11 @@ export const getPageSlugs = async () => {
 		}
 	}`
 	);
-	return data.pages.edges.map(({node}: Page) => ( {params: {slug: node.slug}} ));
+	return data.pages.edges.map(({node}: Page) => ({
+		params: {
+			slug: node.slug
+		}
+	}));
 }
 
 
@@ -99,8 +104,8 @@ export const getPageList = async () => {
 	}`
 	);
 	return data.pages.edges.map(({node}: Page) => ({
-		title: node.title,
-		slug: node.slug
+		title:	node.title,
+		slug:	node.slug
 	}));
 }
 
@@ -121,10 +126,11 @@ export const getPage = async(id: String) => {
 			}
 		  }
 	`);
+	const p = data.page;
 	return {
-		title: data.page.title,
-		content: data.page.content,
-		displayPortfolioElement: data.page.customPageFields.displayPortfolioElement
+		title: 						p.title,
+		content: 					p.content,
+		displayPortfolioElement: 	p.customPageFields.displayPortfolioElement
 	}
 }
 
@@ -135,12 +141,11 @@ export const getPage = async(id: String) => {
  */
 export const getMenuItems = async() => {
 	const data = await fetchAPI(`
-		query getMenuItems {
-			menu(id: "Main Menu", idType: NAME) {
+		query GetMenuItems {
+			menu(id: "${MENU}", idType: NAME) {
 				menuItems {
 					nodes {
 						label
-						order
 						uri
 					}
 				}
@@ -149,8 +154,31 @@ export const getMenuItems = async() => {
 	`);
 	return data.menu.menuItems.nodes.map((node: MenuItem) => ({
 		label: 	node.label,
-		order: 	node.order,
 		uri: 	node.uri
+	}));
+}
+
+
+
+/**
+ * Get Social Media.
+ */
+export const getSocialMedia = async() => {
+	const data = await fetchAPI(`
+		query GetSocialMedia {
+			menu(id: "${SOCIAL}", idType: NAME) {
+				menuItems {
+					nodes {
+						label
+						uri
+					}
+				}
+			}
+		}
+	`);
+	return data.menu.menuItems.nodes.map((node: MenuItem) => ({
+		label: 	node.label,
+		uri: 	node.uri,
 	}));
 }
 

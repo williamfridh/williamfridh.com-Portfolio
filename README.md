@@ -39,3 +39,20 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - No "pages/index.tsx" is used. Instead "next.config.js" redirects traffic from "/" to "/home" so that "pages/[slug].tsx" can handöe the request. "/home" is stored inside ".env.local".
 
+# Formating data in WordPress
+
+- Lists must start with a "header" element. For instance:
+
+<ul>
+	<li>Courses</li>
+	<li>Mathematics</li>
+	<li>Computer Programming</li>
+</ul>
+
+- The menu is to be loaded from a menu byt the name "Main".
+- The social menu is to be loaded from a menu byt the name "Social".
+
+# Sources:
+
+- badges from:
+https://github.com/alexandresanlim/Badges4-README.md-Profile?tab=readme-ov-file

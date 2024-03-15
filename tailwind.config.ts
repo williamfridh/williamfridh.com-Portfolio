@@ -11,7 +11,10 @@ const config: Config = {
     extend: {
       fontFamily: {
         prompt: ["VT323", "monospace"],
-      }
+      },
+	  fontSize: {
+		'zero': '0px'
+	  }
     },
   },
   plugins: [],

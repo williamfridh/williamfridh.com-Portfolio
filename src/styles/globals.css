@@ -9,9 +9,27 @@
 /*
 ================== TEXT ==================
 */
-p {
-    max-width: 520px;
+@layer components {
+	p, ul {
+		@apply max-w-lg;
+	}
+	li {
+		@apply w-fit relative pl-4 border-l-2 border-amber-400;
+	}
+	li:first-child {
+		@apply bg-amber-400 text-neutral-800 px-2;
+	}
+	p > a {
+		@apply underline;
+	}
 }
+li:not(:first-child)::before {
+	content: '→';
+	
+	position: absolute;
+	left: 0;
+}
+
 
 
 /*
