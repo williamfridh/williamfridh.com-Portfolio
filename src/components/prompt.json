@@ -1,0 +1,11 @@
+{
+	"help": {
+		"result": "# Help Commands<br />availiable is listed below.<br />website --version = display version<br />reset = reset console"
+	},
+	"gurka": {
+		"result": "Johan, is that you?"
+	},
+	"website --version": {
+		"result": "Version 1337.42"
+	}
+}

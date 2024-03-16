@@ -33,7 +33,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
 
     return (
         <div className={noiseEffect ? `noise-effect` : ``}>
-            <Prompt />
+            <Prompt menuItems={menuItems} socialMedia={socialMedia} />
             <main className='bg-neutral-700 h-screen fixed w-3/4 right-0 p-8 overflow-scroll overflow-x-hidden'>
                 <Header generalSettings={generalSettings} />
                 <Navigation menuItems={menuItems} />

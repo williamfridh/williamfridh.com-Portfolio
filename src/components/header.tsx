@@ -1,5 +1,6 @@
 import React from 'react';
 import { GeneralSettings } from '../shared/interfaces';
+import Image from 'next/image'
 
 
 
@@ -17,9 +18,19 @@ interface Props {
  */
 const Header: React.FC<Props> = ({ generalSettings }) => {
 	return (
-		<header>
-			<h1 className='text-8xl bg-amber-400 text-neutral-800 px-4 w-fit'>{generalSettings.title}</h1>
-			<h5 className='text-2xl bg-amber-400 text-neutral-800 px-4 mt-1 w-fit'>{generalSettings.description}</h5>
+		<header className='flex'>
+			<div className='size-36 mr-4'>
+				<Image
+					src='/images/headshot.jpg'
+					alt='William Fridh, a fullstack developer.'
+					width={200}
+					height={200}
+					/>
+			</div>
+			<div>
+				<h1>{generalSettings.title}</h1>
+				<h5 className='mt-4'>{generalSettings.description}</h5>
+			</div>
 		</header>
 	);
 };

@@ -2,8 +2,8 @@ import React from 'react';
 import { Project } from '../shared/interfaces';
 import Link from 'next/link';
 import Image from 'next/image'
-import Icon from './icon';
 import Date from './date';
+import Icon from './icon';
 
 
 
@@ -24,35 +24,37 @@ interface Props {
  * Element.
  */
 const Portfolio: React.FC<Props> = ({ projectList }) => {
-	console.log(projectList);
 	return (
-		<div>
-			{projectList.map(project => (
-				<Link href={project.uri}>
-					<div className='border-l-4 border-amber-400 pl-2 mt-4 flex max-w-3xl items-center'>
-						<div className='mr-4'>
+		<div className='grid grid-cols-[min-content_auto] gap-y-4 max-w-3xl'>
+			{projectList.map((project, key) => (
+				<Link href={project.uri} key={key} className='contents'>
+					{/*<div className='pl-2 mt-4 flex max-w-3xl'>*/}
+						<div className='border-r-4 border-amber-400 text-end col-span-1 mr-4'>
+							{project.end === null || project.start.slice(0, 4) === project.end.slice(0, 4)
+								? <h4 className='inline-block'><Date dateString={project.start} /></h4>
+								: <h4 className='inline-block'><Date dateString={project.start} /> - {project.end != null ? <Date dateString={project.end} /> : `Ongoing`}</h4>}
+						</div>
+						{/*<div className='col-span-1 mr-2'>
 							{project.image !== null && <Image
 								src={WP_URL + project.image}
 								alt={`Picture showing the project ${project.title}`}
 								width={300}
 								height={300}
 							/>}
-						</div>
-						<div>
+							</div>*/}
+						<div className='col-span-1'>
 							{/* Compare the YEARS */}
-							<h3 className='text-3xl text-amber-400'>{project.title}</h3>
-							{project.start === project.end
-								? <h4 className='text-amber-400 text-lg'><Date dateString={project.start} /></h4>
-								: <h4 className='text-amber-400 text-lg'><Date dateString={project.start} /> - {project.end != null ? <Date dateString={project.end} /> : `Ongoing`}</h4>}
+							<h3>{project.title}</h3>
+							<p>{project.summary}</p>
 							<div className='text-zero'>
-								{project.techStack.split(/, |,/).sort().map((tech: string) => (
-									<span className='inline-block mr-2 mb-2'>
+								{project.techStack.split(/, |,/).sort().map((tech, key) => (
+									<span className='inline-block mr-2 mb-2' key={key}>
 										<Icon name={tech} />
 									</span>
 								))}
 							</div>
 						</div>
-					</div>
+					{/*</div>*/}
 				</Link>
 			))}
 		</div>

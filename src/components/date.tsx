@@ -18,7 +18,6 @@ interface Props {
  * Souce: https://nextjs.org/learn-pages-router/basics/dynamic-routes/polishing-post-page
  */
 const Date: React.FC<Props> = ({ dateString }) => {
-	console.log(dateString);
 	const date = parseISO(dateString);
 	return <time dateTime={dateString}>{format(date, 'yyyy')}</time>;
 }

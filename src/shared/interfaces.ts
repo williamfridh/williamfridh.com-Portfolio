@@ -3,8 +3,8 @@ export interface GeneralSettings {
 	description: 	string;
 }
 
-export interface Page {
-    node: PageNode
+export interface PageSlug {
+    slug: string;
 }
 
 export interface PagePath {
@@ -33,15 +33,21 @@ export interface promptObj {
 	result: 	string;
 }
 
+export interface ProjectSlug {
+	slug: string;
+}
+
 export interface Project extends ProjectFields {
-	title: 	string;
-	uri: 	string;
-	image: 	string;
+	title: 		string;
+	uri: 		string;
+	image: 		string;
+	content:	string|null;
 }
 
 export interface ProjectRaw {
 	title: 				string;
 	uri: 				string;
+	content:			string|null;
 	projectFields: 		ProjectFields;
 	featuredImage: 		ProjectFeaturedImage | null;
 }
@@ -54,6 +60,7 @@ interface ProjectFeaturedImage {
 
 interface ProjectFields {
 	techStack: 	string;
+	summary:	string;
 	start: 		string;
 	end: 		string;
 	link: 		string;

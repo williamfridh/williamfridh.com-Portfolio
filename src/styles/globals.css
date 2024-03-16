@@ -9,12 +9,36 @@
 /*
 ================== TEXT ==================
 */
-@layer components {
+@layer base {
+	h1 {
+		@apply text-8xl;
+	}
+	h2 {
+		@apply text-5xl;
+	}
+	h3 {
+		@apply text-3xl;
+	}
+	h4 {
+		@apply text-lg;
+	}
+	h5 {
+		@apply text-2xl;
+	}
+	h1, h2, h3, h4, h5 {
+		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
+	}
+	p {
+		@apply my-4 space-y-4;
+	}
+	p, li, a, i {
+		@apply text-amber-400 text-2xl;
+	}
 	p, ul {
 		@apply max-w-lg;
 	}
 	li {
-		@apply w-fit relative pl-4 border-l-2 border-amber-400;
+		@apply w-fit relative pl-4 border-amber-400 border-l-2;
 	}
 	li:first-child {
 		@apply bg-amber-400 text-neutral-800 px-2;
@@ -33,19 +57,12 @@ li:not(:first-child)::before {
 
 
 /*
-================== NEXT.JS ==================
-Opacity used for noise effect.
-*/
-#__next {
-	opacity: 0.94;
-}
-
-
-
-/*
 ================== NOISE EFFECT ==================
 SRC: https://codepen.io/ooblek/pen/vYxYomx
 */
+.noise-effect > * {
+	opacity: 0.94;
+}
 .noise-effect::before {
 	content:			"";
 	background-image:	url("/images/1k_Dissolve_Noise_Texture.png");

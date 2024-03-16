@@ -1,4 +1,4 @@
-import { Page, ProjectRaw, MenuItem } from '../shared/interfaces';
+import { PageSlug, ProjectRaw, ProjectSlug, MenuItem } from '../shared/interfaces';
 
 
 
@@ -70,15 +70,14 @@ export const getPageSlugs = async () => {
 	`
 	query GetPages {
 		pages(where: {status: PUBLISH}) {
-			edges {
-				node {
-					slug
-				}
+			nodes {
+				slug
 			}
 		}
-	}`
+	}
+	`
 	);
-	return data.pages.edges.map(({node}: Page) => ({
+	return data.pages.nodes.map((node: PageSlug) => ({
 		params: {
 			slug: node.slug
 		}
@@ -169,10 +168,11 @@ export const getProjects = async () => {
 	query GetProjects {
 		projects(where: {status: PUBLISH}) {
 			nodes {
-					title
-					uri
-					link
-					projectFields {
+				title
+				uri
+				link
+				projectFields {
+					summary
 					techStack
 					start
 					end
@@ -192,6 +192,7 @@ export const getProjects = async () => {
 	return data.projects.nodes.map((project: ProjectRaw) => ({
 		title:		project.title,
 		uri:		project.uri,
+		summary:	project.projectFields.summary,
 		techStack:	project.projectFields.techStack,
 		start:		project.projectFields.start,
 		end:		project.projectFields.end,
@@ -199,5 +200,68 @@ export const getProjects = async () => {
 		role:		project.projectFields.role,
 		image:		project.featuredImage ? project.featuredImage.node.uri : null
 	}));
+}
+
+
+
+/**
+ * Get project slugs.
+ */
+export const getProjectSlugs = async () => {
+	const data = await fetchAPI(
+	`
+	query GetProjectSlugs {
+		projects(where: {status: PUBLISH}) {
+			nodes {
+				slug
+			}
+		}
+	}
+	`
+	);
+	return data.projects.nodes.map((node: PageSlug) => ({
+		params: {
+			slug: node.slug
+		}
+	}));
+}
+
+
+
+/**
+ * Get project.
+ */
+export const getProject = async (id: string) => {
+	const data = await fetchAPI(
+	`
+	query GetProject {
+		project(id: "project/${id}", idType: URI) {
+		  content
+		  title
+		  projectFields {
+			end
+			link
+			role
+			start
+			techStack
+			summary
+		  }
+		}
+	  }
+	`
+	);
+	const p = data.project;
+	return {
+		title:		p.title,
+		uri:		id,
+		content:	p.content,
+		summary:	p.projectFields.summary,
+		techStack:	p.projectFields.techStack,
+		start:		p.projectFields.start,
+		end:		p.projectFields.end,
+		link:		p.projectFields.link,
+		role:		p.projectFields.role,
+		image:		p.featuredImage ? p.featuredImage.node.uri : null
+	};
 }
 

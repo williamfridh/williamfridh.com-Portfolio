@@ -1,20 +1,17 @@
-import React from 'react';
-import Layout from '../components/layout';
-import { getGeneralSettings, getPageSlugs, getPage, getProjects, getMenuItems, getSocialMedia } from '../lib/api';
-import { GeneralSettings, PageData, Project, MenuItem } from '../shared/interfaces';
+import { getGeneralSettings, getProject, getMenuItems, getSocialMedia, getProjectSlugs } from '../../lib/api';
+import { GeneralSettings, Project, MenuItem } from '../../shared/interfaces';
 import { GetStaticProps } from 'next';
-import Portfolio from '../components/portfolio';
+import Layout from '../../components/layout';
 
 
 
 /**
  * File specific interfaces and types.
  */
-interface Props {
+interface ProjectProps {
     generalSettings:    GeneralSettings;
     menuItems:          MenuItem[];
-	page:               PageData;
-    projectList:        Project[];
+	project:            Project;
     socialMedia:        MenuItem[];
 }
 
@@ -23,18 +20,16 @@ interface Props {
 /**
  * Element.
  */
-const Page: React.FC<Props> = ({ generalSettings, page, projectList, menuItems, socialMedia }) => {
+const Project: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
     return (
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
-            <h2 className='mt-8'><span dangerouslySetInnerHTML={{ __html: page.title }}></span></h2>
-            <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
-            {page.displayPortfolioElement === true && 
-                <Portfolio projectList={projectList} />
-            }
+            <h2 dangerouslySetInnerHTML={{ __html: project.title }} className='mt-8'></h2>
+            <p><b>{project.summary}</b></p>
+            {project.content && <div dangerouslySetInnerHTML={{__html: project.content }}></div>}
         </Layout>
     );
 };
-export default Page;
+export default Project;
 
 
 
@@ -42,7 +37,7 @@ export default Page;
  * Get Static Paths.
  */
 export const getStaticPaths = (async () => {
-    const slugList = await getPageSlugs();
+    const slugList = await getProjectSlugs();
     return {
         paths:      slugList,
         fallback:   false, // Set to true if you want to enable fallback behavior
@@ -61,20 +56,17 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
         slug = params.slug;
     }
 
-    const page               = await getPage(slug);
+    const project            = await getProject(slug);
 	const generalSettings    = await getGeneralSettings();
-    const projectList        = await getProjects();
     const menuItems          = await getMenuItems();
     const socialMedia        = await getSocialMedia();
     
 	return {
 		props: {
 			generalSettings,
-            page,
-            projectList,
+            project,
             menuItems,
             socialMedia
 		},
 	};
 })
-

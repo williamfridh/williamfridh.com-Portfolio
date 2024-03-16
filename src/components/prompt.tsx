@@ -1,21 +1,32 @@
 import React, { useState, ChangeEvent, useLayoutEffect, useEffect } from 'react';
 import PromptRow from './promptRow';
 import { promptObj } from '../shared/interfaces';
+import promptData from './prompt.json';
+import { MenuItem } from '../shared/interfaces';
+
+
+
+/**
+ * File specific interfaces and types.
+ */
+interface PromptProps {
+    menuItems:          MenuItem[];
+    socialMedia:        MenuItem[];
+}
 
 
 
 /**
  * Main component code.
  */
-const Prompt: React.FC<{}> = () => {
+const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 
 	/**
 	 * Data.
 	 */
+	const [tree, setTree] = useState('');
 	const [promptInput, setPromptInput] = useState('');
 	const [promptArr, setPromptArr] = useState<promptObj[]>([]);
-
-
 
 	/**
 	 * Handle Input Change.
@@ -56,7 +67,7 @@ const Prompt: React.FC<{}> = () => {
 		setPromptInput('');
 	  }
 	};
-
+	
 
 
 	/**
@@ -67,22 +78,14 @@ const Prompt: React.FC<{}> = () => {
 	const handleCommand = (promptArr: promptObj[], command: string): promptObj[] => {
 
 		switch (command) {
-			case ':reset':
+			case 'ls':
+				return [{command: promptInput, result: 'Consol reset.'}];
+			case 'reset':
 				return [{command: promptInput, result: 'Consol reset.'}];
 		}
 
-		let result: string = '';
-		switch (command) {
-			case ':help':
-				result = '# Help Commands<br />availiable is listed below.';
-				break;
-			case ':gurka':
-				result = 'Johan.';
-				break;
-			case ':version':
-				result = 'Version 1337.42';
-				break;
-		}
+		let result: string = (promptData as any)[command] ? (promptData as any)[command]?.result : 'Invalid command.';
+
 		return [...promptArr, {command: promptInput, result: result}]
 
 	}
