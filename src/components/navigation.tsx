@@ -18,7 +18,7 @@ interface Props {
 const Navigation: React.FC<Props> = ({ menuItems }) => {
 	return (
 		<nav className='mt-2'>
-			{menuItems.map(({label, order, uri}, key) => (
+			{menuItems.map(({label, uri}, key) => (
 				<Link 
 					href={uri}
 					key={key}

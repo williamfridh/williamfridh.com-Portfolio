@@ -7,6 +7,7 @@ const MENU		= process.env.WORDPRESS_MENU;
 const SOCIAL	= process.env.WORDPRESS_SOCIAL;
 
 
+
 /**
  * Fetch API function used for accessing GraphQL.
  * 
@@ -81,31 +82,6 @@ export const getPageSlugs = async () => {
 		params: {
 			slug: node.slug
 		}
-	}));
-}
-
-
-
-/**
- * Get page list.
- */
-export const getPageList = async () => {
-	const data = await fetchAPI(
-	`
-	query GetPageList {
-		pages(where: {status: PUBLISH}) {
-			edges {
-				node {
-					title,
-					slug
-				}
-			}
-		}
-	}`
-	);
-	return data.pages.edges.map(({node}: Page) => ({
-		title:	node.title,
-		slug:	node.slug
 	}));
 }
 
@@ -214,14 +190,14 @@ export const getProjects = async () => {
 	`
 	);
 	return data.projects.nodes.map((project: ProjectRaw) => ({
-		title: project.title,
-		uri: project.uri,
-		techStack: project.projectFields.techStack,
-		start: project.projectFields.start,
-		end: project.projectFields.end,
-		link: project.projectFields.link,
-		role: project.projectFields.role,
-		image: project.featuredImage ? project.featuredImage.node.uri : null
+		title:		project.title,
+		uri:		project.uri,
+		techStack:	project.projectFields.techStack,
+		start:		project.projectFields.start,
+		end:		project.projectFields.end,
+		link:		project.projectFields.link,
+		role:		project.projectFields.role,
+		image:		project.featuredImage ? project.featuredImage.node.uri : null
 	}));
 }
 

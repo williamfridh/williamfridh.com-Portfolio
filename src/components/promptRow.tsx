@@ -7,8 +7,8 @@ import { promptObj } from '../shared/interfaces';
  * File specific interfaces and types.
  */
 interface Props {
-    content: promptObj,
-    index: number
+    content:    promptObj,
+    index:      number
 }
 
 

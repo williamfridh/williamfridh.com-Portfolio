@@ -12,11 +12,11 @@ import Portfolio from '../components/portfolio';
  * File specific interfaces and types.
  */
 interface Props {
-    generalSettings: GeneralSettings;
-    menuItems: MenuItem[];
-	page: PageData;
-    projectList: Project[];
-    socialMedia: MenuItem[];
+    generalSettings:    GeneralSettings;
+    menuItems:          MenuItem[];
+	page:               PageData;
+    projectList:        Project[];
+    socialMedia:        MenuItem[];
 }
 
 
@@ -45,8 +45,8 @@ export default Page;
 export const getStaticPaths = (async () => {
     const slugList = await getPageSlugs();
     return {
-        paths: slugList,
-        fallback: false, // Set to true if you want to enable fallback behavior
+        paths:      slugList,
+        fallback:   false, // Set to true if you want to enable fallback behavior
     };
 })
 
@@ -62,11 +62,11 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
         slug = params.slug;
     }
 
-    const page = await getPage(slug);
-	const generalSettings = await getGeneralSettings();
-    const projectList = await getProjects();
-    const menuItems = await getMenuItems();
-    const socialMedia = await getSocialMedia();
+    const page               = await getPage(slug);
+	const generalSettings    = await getGeneralSettings();
+    const projectList        = await getProjects();
+    const menuItems          = await getMenuItems();
+    const socialMedia        = await getSocialMedia();
     
 	return {
 		props: {
