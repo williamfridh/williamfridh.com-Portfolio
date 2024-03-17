@@ -15,6 +15,8 @@ interface Props {
 
 /**
  * Element.
+ * 
+ * The prompt row component is used to display the command prompt
  */
 const PromptRow: React.FC<Props> = ({ content, index }) => {
     return (

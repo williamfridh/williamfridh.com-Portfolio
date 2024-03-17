@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image'
 import Date from './date';
 import Icon from './icon';
+import BadgeList from './BadgeList';
 
 
 
@@ -29,10 +30,12 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 			{projectList.map((project, key) => (
 				<Link href={project.uri} key={key} className='contents'>
 					{/*<div className='pl-2 mt-4 flex max-w-3xl'>*/}
-						<div className='border-r-4 border-amber-400 text-end col-span-1 mr-4'>
-							{project.end === null || project.start.slice(0, 4) === project.end.slice(0, 4)
-								? <h4 className='inline-block'><Date dateString={project.start} /></h4>
-								: <h4 className='inline-block'><Date dateString={project.start} /> - {project.end != null ? <Date dateString={project.end} /> : `Ongoing`}</h4>}
+						<div className='border-r-4 border-amber-400 col-span-1 mr-4'>
+							<h4 className='float-right'><Date dateString={project.start} />{
+								project.end === null ? ` - Ongoing` :
+								project.start.slice(0, 4) !== project.end.slice(0, 4) &&
+								` - ${project.end.slice(0, 4)}`
+							}</h4>
 						</div>
 						{/*<div className='col-span-1 mr-2'>
 							{project.image !== null && <Image
@@ -46,13 +49,7 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 							{/* Compare the YEARS */}
 							<h3>{project.title}</h3>
 							<p>{project.summary}</p>
-							<div className='text-zero'>
-								{project.techStack.split(/, |,/).sort().map((tech, key) => (
-									<span className='inline-block mr-2 mb-2' key={key}>
-										<Icon name={tech} />
-									</span>
-								))}
-							</div>
+							<BadgeList badgeList={project.techStack} />
 						</div>
 					{/*</div>*/}
 				</Link>

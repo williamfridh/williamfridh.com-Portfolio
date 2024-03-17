@@ -4,12 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-/*
-================== TEXT ==================
-*/
 @layer base {
+
+	/*
+	================== TEXT ==================
+	*/
 	h1 {
 		@apply text-8xl;
 	}
@@ -45,6 +44,10 @@
 	}
 	p > a {
 		@apply underline;
+	}
+
+	.content > * {
+		@apply max-w-lg;;
 	}
 }
 li:not(:first-child)::before {

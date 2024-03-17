@@ -15,6 +15,8 @@ interface Props {
 
 /**
  * Element.
+ * 
+ * The social component is used to display social media links.
  */
 const Social: React.FC<Props> = ({ socialMedia }) => {
 	return (

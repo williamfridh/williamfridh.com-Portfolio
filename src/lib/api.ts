@@ -2,6 +2,11 @@ import { PageSlug, ProjectRaw, ProjectSlug, MenuItem } from '../shared/interface
 
 
 
+/**
+ * Environment variables.
+ * 
+ * Note that these variables are set in the .env file.
+ */
 const API_URL 	= process.env.WORDPRESS_API_URL;
 const MENU		= process.env.WORDPRESS_MENU;
 const SOCIAL	= process.env.WORDPRESS_SOCIAL;
@@ -14,6 +19,11 @@ const SOCIAL	= process.env.WORDPRESS_SOCIAL;
  * Note that this function was taken from Next.js's
  * official GitHub repository:
  * https://github.com/vercel/next.js/tree/canary/examples/cms-wordpress
+ * 
+ * @param {String} query
+ * @param {Object} variables
+ * @returns {Promise<any>}
+ * @throws {Error}
  */
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
 
@@ -46,6 +56,8 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
 
 /**
  * Get General Settings.
+ * 
+ * @returns {Promise<GeneralSettings>}
  */
 export const getGeneralSettings = async () => {
 	const data = await fetchAPI(
@@ -64,6 +76,8 @@ export const getGeneralSettings = async () => {
 
 /**
  * Get page slugs.
+ * 
+ * @returns {Promise<PageSlug[]>}
  */
 export const getPageSlugs = async () => {
 	const data = await fetchAPI(
@@ -88,6 +102,9 @@ export const getPageSlugs = async () => {
 
 /**
  * Get page.
+ * 
+ * @param {String} id
+ * @returns {Promise<Page>}
  */
 export const getPage = async(id: String) => {
 	const data = await fetchAPI(`
@@ -113,6 +130,8 @@ export const getPage = async(id: String) => {
 
 /**
  * Get Menu Items.
+ * 
+ * @returns {Promise<MenuItem[]>}
  */
 export const getMenuItems = async() => {
 	const data = await fetchAPI(`
@@ -137,6 +156,8 @@ export const getMenuItems = async() => {
 
 /**
  * Get Social Media.
+ * 
+ * @returns {Promise<MenuItem[]>}
  */
 export const getSocialMedia = async() => {
 	const data = await fetchAPI(`
@@ -161,6 +182,8 @@ export const getSocialMedia = async() => {
 
 /**
  * Get projects.
+ * 
+ * @returns {Promise<Project[]>}
  */
 export const getProjects = async () => {
 	const data = await fetchAPI(
@@ -206,6 +229,8 @@ export const getProjects = async () => {
 
 /**
  * Get project slugs.
+ * 
+ * @returns {Promise<ProjectSlug[]>}
  */
 export const getProjectSlugs = async () => {
 	const data = await fetchAPI(
@@ -230,24 +255,32 @@ export const getProjectSlugs = async () => {
 
 /**
  * Get project.
+ * 
+ * @param {String} id
+ * @returns {Promise<Project>}
  */
 export const getProject = async (id: string) => {
 	const data = await fetchAPI(
 	`
 	query GetProject {
 		project(id: "project/${id}", idType: URI) {
-		  content
-		  title
-		  projectFields {
-			end
-			link
-			role
-			start
-			techStack
-			summary
+			content
+			title
+			projectFields {
+			  end
+			  link
+			  role
+			  start
+			  techStack
+			  summary
+			}
+			featuredImage {
+			  node {
+				uri
+			  }
+			}
 		  }
 		}
-	  }
 	`
 	);
 	const p = data.project;

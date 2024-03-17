@@ -21,24 +21,54 @@ interface Props {
 
 /**
  * Element.
+ * 
+ * The layout component is the main layout for the application.
  */
 const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialMedia }) => {
 
     /**
+     * State.
+     * 
      * Keep states for special effects and layout here.
      * Remember to to add toggles for the extra features
      * on the APP for those who prefer less distractions.
      */
     const [noiseEffect, setNoiseEffect] = useState(true);
+    const [showPrompt, setShowPrompt] = useState(true);
 
+    /**
+     * Toggle prompt.
+     * 
+     * This function is used to toggle the prompt.
+     * It's passed to the prompt component.
+     */
+    const togglePrompt = () => {
+        setShowPrompt(!showPrompt);
+    }
+    
     return (
         <div className={noiseEffect ? `noise-effect` : ``}>
-            <Prompt menuItems={menuItems} socialMedia={socialMedia} />
-            <main className='bg-neutral-700 h-screen fixed w-3/4 right-0 p-8 overflow-scroll overflow-x-hidden'>
-                <Header generalSettings={generalSettings} />
-                <Navigation menuItems={menuItems} />
-                <Social socialMedia={socialMedia} />
-                {children}
+            <Prompt menuItems={menuItems} socialMedia={socialMedia} togglePrompt={togglePrompt} showPrompt={showPrompt} />
+            <main className={`
+                bg-neutral-700
+                h-screen
+                fixed
+                ${showPrompt ? `w-3/4` : `w-full`}
+                right-0
+                py-8
+                overflow-scroll
+                overflow-x-hidden
+                flex
+                place-content-center
+                transition-width
+                duration-200
+            `}>
+                <div className=''>
+                    <Header generalSettings={generalSettings} />
+                    <Navigation menuItems={menuItems} />
+                    <Social socialMedia={socialMedia} />
+                    {children}
+                </div>
             </main>
         </div>
     );

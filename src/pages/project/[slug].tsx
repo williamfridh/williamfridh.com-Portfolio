@@ -2,6 +2,12 @@ import { getGeneralSettings, getProject, getMenuItems, getSocialMedia, getProjec
 import { GeneralSettings, Project, MenuItem } from '../../shared/interfaces';
 import { GetStaticProps } from 'next';
 import Layout from '../../components/layout';
+import Image from 'next/image'
+import BadgeList from '@/components/BadgeList';
+
+
+
+const WP_URL = process.env.NEXT_PUBLIC_WP_URL;
 
 
 
@@ -23,9 +29,19 @@ interface ProjectProps {
 const Project: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
     return (
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
-            <h2 dangerouslySetInnerHTML={{ __html: project.title }} className='mt-8'></h2>
-            <p><b>{project.summary}</b></p>
-            {project.content && <div dangerouslySetInnerHTML={{__html: project.content }}></div>}
+            <div className='content'>
+                <h2 dangerouslySetInnerHTML={{ __html: project.title }} className='mt-8'></h2>
+                <Image
+                    src={WP_URL + project.image}
+                    alt={`Picture showing the project ${project.title}`}
+                    width={720}
+                    height={1280}
+                    className='border-amber-400 border-t-4'
+                    />
+                <BadgeList badgeList={project.techStack} />
+                <p><b>{project.summary}</b></p>
+                {project.content && <div dangerouslySetInnerHTML={{__html: project.content }}></div>}
+            </div>
         </Layout>
     );
 };
