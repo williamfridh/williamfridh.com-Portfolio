@@ -24,7 +24,6 @@ const Navigation: React.FC<Props> = ({ menuItems }) => {
 					key={key}
 					className='
 						text-amber-400
-						text-3xl
 						flex
 						items-center
 						px-2

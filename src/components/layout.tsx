@@ -55,6 +55,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 fixed
                 ${showPrompt ? `w-3/4` : `w-full`}
                 right-0
+                px-4
                 py-8
                 overflow-scroll
                 overflow-x-hidden
@@ -62,6 +63,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 place-content-center
                 transition-width
                 duration-200
+                max-w-full
             `}>
                 <div className=''>
                     <Header generalSettings={generalSettings} />

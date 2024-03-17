@@ -195,7 +195,8 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 					' />
 			</form>
 			<div className='
-				top-2
+				top-0
+				md:top-2
 				text-3xl
 				bg-amber-400
 				text-center

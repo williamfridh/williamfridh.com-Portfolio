@@ -5,33 +5,29 @@
 @tailwind utilities;
 
 @layer base {
-
-	/*
-	================== TEXT ==================
-	*/
 	h1 {
-		@apply text-8xl;
+		@apply text-3xl md:text-8xl;
 	}
 	h2 {
-		@apply text-5xl;
+		@apply text-2xl md:text-5xl;
 	}
 	h3 {
-		@apply text-3xl;
+		@apply text-xl md:text-3xl;
 	}
 	h4 {
-		@apply text-lg;
+		@apply text-base md:text-lg;
 	}
 	h5 {
-		@apply text-2xl;
+		@apply text-sm md:text-2xl;
 	}
 	h1, h2, h3, h4, h5 {
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
 	}
 	p {
-		@apply my-4 space-y-4;
+		@apply my-2 md:my-4 space-y-2 md:space-y-4;
 	}
 	p, li, a, i {
-		@apply text-amber-400 text-2xl;
+		@apply text-amber-400 max-w-full text-lg leading-5 md:text-2xl;
 	}
 	p, ul {
 		@apply max-w-lg;
@@ -42,6 +38,12 @@
 	li:first-child {
 		@apply bg-amber-400 text-neutral-800 px-2;
 	}
+	li:not(:first-child)::before {
+		content: '→';
+		
+		position: absolute;
+		left: 0;
+	}
 	p > a {
 		@apply underline;
 	}
@@ -50,61 +52,61 @@
 		@apply max-w-lg;;
 	}
 }
-li:not(:first-child)::before {
-	content: '→';
-	
-	position: absolute;
-	left: 0;
+
+@layer components {
+
 }
 
+@layer base {
 
+	/*
+	================== NOISE EFFECT ==================
+	SRC: https://codepen.io/ooblek/pen/vYxYomx
+	*/
+	.noise-effect > * {
+		opacity: 0.94;
+	}
+	.noise-effect::before {
+		content:			"";
+		background-image:	url("/images/1k_Dissolve_Noise_Texture.png");
+		height:				300%;
+		width: 				300%;
+		position: 			fixed;
+		animation: 			animateGrain 8s steps(10) infinite;
+	}
+	@keyframes animateGrain{
+		0%, 100% { transform:translate(0, 0) }
+		10% {
+			transform:translate(-5%,-10%)
+		}
+		20% {
+			transform:translate(-15%,-20%)
+		}
+		30% {
+			transform:translate(-5%,-10%)
+		}
+		40% {
+			transform:translate(-15%,-20%)
+		}
+		50% {
+			transform:translate(-5%,-10%)
+		}
+		60% {
+			transform:translate(-15%,-20%)
+		}
+		70% {
+			transform:translate(-5%,-10%)
+		}
+		80% {
+			transform:translate(-15%,-20%)
+		}
+		90% {
+			transform:translate(-5%,-10%)
+		}
+		100% {
+			transform:translate(-15%,-20%)
+		}
+	}
 
-/*
-================== NOISE EFFECT ==================
-SRC: https://codepen.io/ooblek/pen/vYxYomx
-*/
-.noise-effect > * {
-	opacity: 0.94;
-}
-.noise-effect::before {
-	content:			"";
-	background-image:	url("/images/1k_Dissolve_Noise_Texture.png");
-	height:				300%;
-	width: 				300%;
-	position: 			fixed;
-	animation: 			animateGrain 8s steps(10) infinite;
-}
-@keyframes animateGrain{
-	0%, 100% { transform:translate(0, 0) }
-	10% {
-	  	transform:translate(-5%,-10%)
-	}
-	20% {
-	  	transform:translate(-15%,-20%)
-	}
-	30% {
-	  	transform:translate(-5%,-10%)
-	}
-	40% {
-	  	transform:translate(-15%,-20%)
-	}
-	50% {
-	  	transform:translate(-5%,-10%)
-	}
-	60% {
-	  	transform:translate(-15%,-20%)
-	}
-	70% {
-	  	transform:translate(-5%,-10%)
-	}
-	80% {
-	  	transform:translate(-15%,-20%)
-	}
-	90% {
-	  	transform:translate(-5%,-10%)
-	}
-	100% {
-	  	transform:translate(-15%,-20%)
-	}
 }
   
