@@ -54,7 +54,25 @@
 }
 
 @layer components {
-
+	div#prompt._open {
+		@apply left-0;
+	}
+	div#prompt._closed {
+		@apply -left-3/4;
+	}
+	@screen sm {
+		div#prompt._closed {
+			@apply -left-1/4;
+		}
+	}
+	@screen md {
+		main#content._full {
+			@apply w-full;
+		}
+		main#content._scaled {
+			@apply w-3/4;
+		}
+	}
 }
 
 @layer base {

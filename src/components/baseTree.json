@@ -1,0 +1,57 @@
+{
+    "recipies": [
+        {
+            "name": "Pancakes",
+            "ingredients": [
+                "flour",
+                "milk",
+                "eggs",
+                "sugar",
+                "butter"
+            ],
+            "instructions": [
+                "Mix all ingredients in a bowl",
+                "Heat a pan",
+                "Pour a small amount of the mixture into the pan",
+                "Cook until golden brown",
+                "Serve with syrup"
+            ]
+        },
+        {
+            "name": "Spaghetti",
+            "ingredients": [
+                "spaghetti",
+                "tomato sauce",
+                "ground beef",
+                "onion",
+                "garlic",
+                "salt",
+                "pepper"
+            ],
+            "instructions": [
+                "Boil water in a pot",
+                "Add spaghetti to the boiling water",
+                "Cook until al dente",
+                "In a separate pan, cook ground beef, onion, and garlic",
+                "Add tomato sauce, salt, and pepper to the beef mixture",
+                "Drain the spaghetti and mix with the sauce",
+                "Serve hot"
+            ]
+        },
+        {
+            "name": "Caesar Salad",
+            "ingredients": [
+                "romaine lettuce",
+                "croutons",
+                "parmesan cheese",
+                "caesar dressing"
+            ],
+            "instructions": [
+                "Wash and chop romaine lettuce",
+                "Add croutons and parmesan cheese to the lettuce",
+                "Toss with caesar dressing",
+                "Serve chilled"
+            ]
+        }
+    ]
+}

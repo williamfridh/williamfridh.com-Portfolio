@@ -1,8 +1,10 @@
-import React, { useState, ChangeEvent, useLayoutEffect, useEffect } from 'react';
-import PromptRow from './promptRow';
-import { promptObj } from '../shared/interfaces';
-import promptData from './prompt.json';
-import { MenuItem } from '../shared/interfaces';
+import React, { useState, ChangeEvent, useLayoutEffect, useEffect } from 'react'
+import PromptRow from './promptRow'
+import { promptObj } from '../shared/interfaces'
+import promptData from './prompt.json'
+import baseTree from './baseTree.json'
+import { MenuItem } from '../shared/interfaces'
+import { useRouter } from 'next/router'
 
 
 
@@ -10,10 +12,10 @@ import { MenuItem } from '../shared/interfaces';
  * File specific interfaces and types.
  */
 interface PromptProps {
-    menuItems:          MenuItem[];
-    socialMedia:        MenuItem[];
-	togglePrompt:	   	() => void;
-	showPrompt:		   	boolean;
+    menuItems:          MenuItem[]
+    socialMedia:        MenuItem[]
+	togglePrompt:	   	() => void
+	showPrompt:		   	boolean
 }
 
 
@@ -26,13 +28,62 @@ interface PromptProps {
 const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, showPrompt}) => {
 
 	/**
+	 * The router is used for catching clicks on Netx JS <Link /> elements.
+	 */
+	const router = useRouter()
+
+	/*const createObjectFromMenuItems = () => {
+		const acc = {}
+		return menuItems.reduce(({label, uri}: MenuItem) => {
+			acc[label] = uri;
+			return acc;
+		}, {});
+	}*/
+
+	/**
+	 * Construct root. This tree should include fun static branches
+	 * and the provided menu items and social media information.
+	 */
+	const menuItemsList = menuItems.map((page) => page.uri === `/` ? `home` : page.uri.replaceAll('/', ''))
+	const root = {
+		...menuItemsList.map((obj) => `${obj}.html`),
+		baseTree
+	}
+	console.log(menuItems)
+
+	/**
 	 * Data.
 	 * 
 	 * The data is stored in state and session storage.
 	 */
-	const [tree, setTree] = useState('');
-	const [promptInput, setPromptInput] = useState('');
-	const [promptArr, setPromptArr] = useState<promptObj[]>([]);
+	const [branch, setBranch] = useState(root)
+	const [promptInput, setPromptInput] = useState('')
+	const [promptArr, setPromptArr] = useState<promptObj[]>([])
+
+	/**
+	 * List files.
+	 * 
+	 * Command: ls
+	 * 
+	 * Function used for listing what in the current directory.
+	 */
+	const listFiles = () => {
+		//console.log(branch)
+		const list = branch.map((item) => typeof item === `string` ?  `${item}<br />` : `${Object.keys(item)}<br />`).join(``)
+		return list
+	}
+
+	/**
+	 * Change directory.
+	 * 
+	 * Command: cd [folder name]
+	 * 
+	 * Function used for changing the current directory
+	 * of the prompt.
+	 */
+	const changeDirectory = (folder: string) => {
+		//setBranch(branch[])
+	}
 
 	/**
 	 * Handle Input Change.
@@ -41,9 +92,9 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 * @returns void.
 	 */
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const filteredInput = inputFilter(event.target.value);
-		setPromptInput(filteredInput);
-	};
+		const filteredInput = inputFilter(event.target.value)
+		setPromptInput(filteredInput)
+	}
 
 	/**
 	 * Filter input.
@@ -55,49 +106,69 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 * @returns filtered string.
 	 */
 	const inputFilter = (input: string): string => {
-		const regex = /[^a-zA-Z0-9,:/"]/g;
-		return input.replace(regex, '').toLowerCase();
+		const regex = /[^a-zA-Z0-9\.:/\-~\s"]/g
+		return input.replace(regex, '').toLowerCase()
 	}
 
 	/**
-	 * Handle Submit.
+	 * Catch & Handle Submit.
 	 * 
 	 * Prevents default submision, and updated the array data
-	 * with the so far written input.
+	 * with the so far written input. Note that this function is
+	 * split into two so that the inner, handleSubmit() can be called
+	 * seperatly.
 	 * 
 	 * @param event cought.
 	 * @returns void.
 	 */
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-	  event.preventDefault(); // Prevent default form submission behavior.
-	  if (promptInput.trim() !== '') {
-		const result: promptObj[] = handleCommand(promptArr, promptInput);
-		setPromptArr(result);
-		setPromptInput('');
-	  }
-	};
+	const catchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	  event.preventDefault() // Prevent default form submission behavior.
+	  handleSubmit()
+	}
+
+	const handleSubmit = () => {
+		if (promptInput.trim() !== '') {
+			const result: promptObj[] = handleCommand(promptInput)
+			setPromptArr(result)
+			setPromptInput('')
+		}
+	}
 	
 	/**
 	 * Handle command.
 	 * 
 	 * Function that takes action based on command.
+	 * Note that this function is only called upon actual calls,
+	 * thus not when mirroring normal user navigation.
 	 * 
-	 * @param promptArr array of prompt objects.
 	 * @param command string to handle.
 	 * @returns promptArr.
 	 */
-	const handleCommand = (promptArr: promptObj[], command: string): promptObj[] => {
+	const handleCommand = (input: string): promptObj[] => {
 
-		switch (command) {
-			case 'ls':
-				return [{command: promptInput, result: 'Consol reset.'}];
+		//console.log(`handleCommand:`)
+		//console.log(promptArr)
+		//console.log(input)
+
+		switch (input) {
 			case 'reset':
-				return [{command: promptInput, result: 'Consol reset.'}];
+				return [{command: input, result: 'Consol reset.'}]
+			case 'ls':
+				return [...promptArr, {command: input, result: listFiles()}]
 		}
 
-		let result: string = (promptData as any)[command] ? (promptData as any)[command]?.result : 'Invalid command.';
+		const inputArr = input.split(` `)
 
-		return [...promptArr, {command: promptInput, result: result}]
+		if (inputArr[0] === `view` && branch.includes(inputArr[1])) {
+			router.push(inputArr[1].replace(`.html`, ``))
+			return [...promptArr, {command: input, result: `Loading ${inputArr[1]}...`}]
+		}
+
+		let res: string = (promptData as any)[input] ? (promptData as any)[input]?.result : `Invalid command.<br />Type "help" for a list of supported commands.`
+
+		return [...promptArr, {command: input, result: res}]
+
+		//return [...promptArr, {command: input, result: `Invalid command.<br />Type "help" for a list of supported commands.`}]
 
 	}
 
@@ -105,52 +176,81 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 * Use Effect to store state in session storage on device.
 	 */
 	useEffect(() => {
-		sessionStorage.setItem('promptArr', JSON.stringify(promptArr));
+		sessionStorage.setItem('promptArr', JSON.stringify(promptArr))
 	}, [promptArr])
 
-	useEffect(() => {
-		sessionStorage.setItem('promptInput', promptInput);
-	}, [promptInput])
+	//useEffect(() => {
+	//	sessionStorage.setItem('promptInput', promptInput)
+	//}, [promptInput])
 
 	/**
 	 * Use Layout Effect to store state in session storage on device.
 	 * This is used in combination to useEffect to store the data
 	 * upon DOM change which might accure upon navigation.
+	 * 
+	 * Necessary to keep the prompt data consistent upon refresh.
 	 */
 	useLayoutEffect(() => {
 
-		const storedPromptArr = sessionStorage.getItem('promptArr');
-		const storedPromptInput = sessionStorage.getItem('promptInput');
+		const storedPromptArr = sessionStorage.getItem('promptArr')
+		//const storedPromptInput = sessionStorage.getItem('promptInput')
 
 		if (storedPromptArr) {
-			const promptArr = storedPromptArr ? JSON.parse(storedPromptArr) : [];
-			setPromptArr(promptArr);
+			const promptArr = storedPromptArr ? JSON.parse(storedPromptArr) : []
+			setPromptArr(promptArr)
 		} else {
-			sessionStorage.setItem('promptArr', JSON.stringify(promptArr));
+			sessionStorage.setItem('promptArr', JSON.stringify(promptArr))
 		}
 
-		if (storedPromptInput) {
-			setPromptInput(storedPromptInput ? storedPromptInput : '');
-		} else {
-			sessionStorage.setItem('promptInput', promptInput);
-		}
+		//if (storedPromptInput) {
+		//	setPromptInput(storedPromptInput ? storedPromptInput : '')
+		//} else {
+		//	sessionStorage.setItem('promptInput', promptInput)
+		//}
 
+	}, [])
+
+	useEffect(() => {
+		const handleRouteChange = (url: string) => {
+
+			console.log(`handleRouteChange:`)
+			console.log(promptArr)
+
+			const filteredInput = inputFilter(`view ~${url}.html`)
+			console.log(filteredInput)
+			const result: promptObj[] = handleCommand(filteredInput)
+			setPromptArr(result)
+
+			// It happens. but we must wait.
+			// Add "fake" prompt command to keep concistency.
+			//console.log(promptInput)
+			//handleSubmit()
+		}
+	
+		// When the component is mounted, subscribe to router changes.
+		router.events.on('routeChangeComplete', handleRouteChange)
+	
+		// If the component is unmounted, unsubscribe from the event.
+		return () => {
+			router.events.off('routeChangeComplete', handleRouteChange)
+		}
 	}, [])
 
 	/**
 	 * Element.
 	 */
     return (
-        <div className={`
+        <div id={`prompt`} className={`
 			fixed
 			top-0
 			h-screen
-			w-1/4
+			w-3/4
+			sm:w-1/4
 			bg-neutral-800
 			border-r-2
 			border-amber-400
 			z-10
-			${showPrompt ? 'left-0' : '-left-1/4'}
+			${showPrompt ? '_open' : '_closed'}
 			transition-left
 			duration-200
 		`}>
@@ -160,7 +260,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 				))}
 			</div>
 			<form
-				onSubmit={handleSubmit}
+				onSubmit={catchSubmit}
 				className='flex border-t-2 border-amber-400'>
 				<input
 					type='text'
@@ -209,7 +309,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 			onClick={togglePrompt}
 			>{showPrompt ? <span>&lt;</span> : <span>&gt;</span>}</div>
         </div>
-    );
-};
-export default Prompt;
+    )
+}
+export default Prompt
 
