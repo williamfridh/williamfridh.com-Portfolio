@@ -17,6 +17,12 @@ interface PromptProps {
 	togglePrompt:	   	() => void
 	showPrompt:		   	boolean
 }
+interface MenuItemsBranch {
+	[key: string]: {
+	  type: string
+	}
+  
+}
 
 
 
@@ -40,16 +46,30 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 		}, {});
 	}*/
 
+
+	/**
+	 * Convert menu items to branch part.
+	 */
+	const convertMenuItemsToBranchPart = (menuItems: MenuItem[]) => {
+		let result: MenuItemsBranch = {}
+		menuItems.forEach(({label, uri}) => {
+		  	result[uri !== `/` ? uri : `/home/`] = {
+				type: `page`
+		  	}
+		})
+		return result
+	}
+
 	/**
 	 * Construct root. This tree should include fun static branches
 	 * and the provided menu items and social media information.
 	 */
-	const menuItemsList = menuItems.map((page) => page.uri === `/` ? `home` : page.uri.replaceAll('/', ''))
+	const menuItemsBranchPart = convertMenuItemsToBranchPart(menuItems)
 	const root = {
-		...menuItemsList.map((obj) => `${obj}.html`),
+		menuItemsBranchPart,
 		baseTree
 	}
-	console.log(menuItems)
+	console.log(root)
 
 	/**
 	 * Data.
@@ -59,6 +79,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	const [branch, setBranch] = useState(root)
 	const [promptInput, setPromptInput] = useState('')
 	const [promptArr, setPromptArr] = useState<promptObj[]>([])
+	  
 
 	/**
 	 * List files.
@@ -159,6 +180,8 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 
 		const inputArr = input.split(` `)
 
+		console.log(branch)
+
 		if (inputArr[0] === `view` && branch.includes(inputArr[1])) {
 			router.push(inputArr[1].replace(`.html`, ``))
 			return [...promptArr, {command: input, result: `Loading ${inputArr[1]}...`}]
@@ -243,16 +266,15 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
         <div id={`prompt`} className={`
 			fixed
 			top-0
-			h-screen
-			w-3/4
+			bottom-0
+			w-full
 			sm:w-1/4
 			bg-neutral-800
-			border-r-2
-			border-amber-400
 			z-10
 			${showPrompt ? '_open' : '_closed'}
 			transition-left
 			duration-200
+			pr-9
 		`}>
 			<div className='h-[calc(100%-48px)]'>
 				{promptArr.map((content, key) => (
@@ -261,7 +283,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 			</div>
 			<form
 				onSubmit={catchSubmit}
-				className='flex border-t-2 border-amber-400'>
+				className='flex border-t-2 border-amber-400 relative'>
 				<input
 					type='text'
 					value={promptInput}
@@ -276,7 +298,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 						p-4
 						focus:outline-none
 						tracking-wider
-						text-xl
+						text-base
 					' />
 				<input
 					type='submit'
@@ -295,19 +317,23 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 					' />
 			</form>
 			<div className='
+				absolute
 				top-0
-				md:top-2
+				bottom-0
+				right-0
 				text-3xl
 				bg-amber-400
-				text-center
-				absolute
-				left-full 
 				w-9
 				select-none
 				cursor-pointer
+				flex
+				items-center
+				justify-center
 			'
 			onClick={togglePrompt}
-			>{showPrompt ? <span>&lt;</span> : <span>&gt;</span>}</div>
+			>
+				{showPrompt ? <>&lt;</> : <>&gt;</>}
+			</div>
         </div>
     )
 }

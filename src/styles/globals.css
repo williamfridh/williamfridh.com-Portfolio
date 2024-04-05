@@ -33,7 +33,7 @@
 		@apply max-w-lg;
 	}
 	li {
-		@apply w-fit relative pl-4 border-amber-400 border-l-2;
+		@apply w-fit relative pl-4 border-amber-400 border-l-2 overflow-hidden;
 	}
 	li:first-child {
 		@apply bg-amber-400 text-neutral-800 px-2;
@@ -42,7 +42,8 @@
 		content: '→';
 		
 		position: absolute;
-		left: 0;
+		left: -5px;
+		top: 1px;
 	}
 	p > a {
 		@apply underline;
@@ -58,11 +59,11 @@
 		@apply left-0;
 	}
 	div#prompt._closed {
-		@apply -left-3/4;
+		@apply -left-[calc(100%-2.25rem)];
 	}
 	@screen sm {
 		div#prompt._closed {
-			@apply -left-1/4;
+			@apply -left-full;
 		}
 	}
 	@screen md {

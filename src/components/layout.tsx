@@ -67,6 +67,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 ${showPrompt ? `_scaled` : `_full`}
                 right-0
                 px-4
+                pl-[3.25rem]
                 py-8
                 overflow-scroll
                 overflow-x-hidden

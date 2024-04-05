@@ -20,7 +20,7 @@ interface Props {
  */
 const PromptRow: React.FC<Props> = ({ content, index }) => {
     return (
-        <div className='text-amber-400 leading-normal px-4 py-1 tracking-wider text-xl'>
+        <div className='text-amber-400 leading-normal px-4 py-1 tracking-wider text-base'>
             <span className='font-bold mr-2'>{index + 1} &gt;</span>
             {content.command}
             <div dangerouslySetInnerHTML={{ __html: content.result }}></div>

@@ -31,7 +31,7 @@ const Navigation: React.FC<Props> = ({ menuItems }) => {
 						hover:bg-amber-400
 						hover:text-neutral-800
 					'>
-					<span className='text-xs mr-2'>■</span><span>{label}</span>
+					<span className='text-xs mr-2'>■</span><span className='text-2xl'>{label}</span>
 				</Link>
 			))}
 		</nav>
