@@ -19,7 +19,8 @@ interface PromptProps {
 }
 interface MenuItemsBranch {
 	[key: string]: {
-	  type: string
+	  	type: string,
+		uri: string
 	}
   
 }
@@ -53,8 +54,9 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	const convertMenuItemsToBranchPart = (menuItems: MenuItem[]) => {
 		let result: MenuItemsBranch = {}
 		menuItems.forEach(({label, uri}) => {
-		  	result[uri !== `/` ? uri : `/home/`] = {
-				type: `page`
+		  	result[uri !== `/` ? uri.replaceAll(`/`, ``) + `.html` : `home.html`] = {
+				type: `html`,
+				uri: uri
 		  	}
 		})
 		return result
@@ -66,10 +68,10 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 */
 	const menuItemsBranchPart = convertMenuItemsToBranchPart(menuItems)
 	const root = {
-		menuItemsBranchPart,
-		baseTree
+		...menuItemsBranchPart,
+		...baseTree
 	}
-	console.log(root)
+	//console.log(root)
 
 	/**
 	 * Data.
@@ -90,7 +92,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 */
 	const listFiles = () => {
 		//console.log(branch)
-		const list = branch.map((item) => typeof item === `string` ?  `${item}<br />` : `${Object.keys(item)}<br />`).join(``)
+		const list = Object.keys(branch).join(`<br />`)
 		return list
 	}
 
@@ -165,7 +167,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 * @param command string to handle.
 	 * @returns promptArr.
 	 */
-	const handleCommand = (input: string): promptObj[] => {
+	const handleCommand = (input: string, performeAction: boolean = true): promptObj[] => {
 
 		//console.log(`handleCommand:`)
 		//console.log(promptArr)
@@ -178,13 +180,30 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 				return [...promptArr, {command: input, result: listFiles()}]
 		}
 
+		let branchProxy = branch
+
 		const inputArr = input.split(` `)
 
-		console.log(branch)
+		if (inputArr[1].includes(`~`)) {
+			branchProxy = root
+			inputArr[1] = inputArr[1].replace(`~/`, ``)
+		}
 
-		if (inputArr[0] === `view` && branch.includes(inputArr[1])) {
-			router.push(inputArr[1].replace(`.html`, ``))
-			return [...promptArr, {command: input, result: `Loading ${inputArr[1]}...`}]
+		//console.log(inputArr[1])
+		//console.log(branchProxy)
+		//console.log(inputArr[0] in [`view`, `cd`])
+		//console.log(inputArr[1] in branchProxy)
+
+		if ([`view`, `cd`].includes(inputArr[0]) && inputArr[1] in branchProxy === false) { // File doesn't exist.
+			return [...promptArr, {command: input, result: `File doesn't exist`}]
+		}
+
+		if (inputArr[0] === `view`) {
+			if ((branchProxy as any)[inputArr[1]].type !== `html`) { // File is not html.
+				return [...promptArr, {command: input, result: `Not a valid html`}]
+			}
+			if (performeAction === true) router.push((branchProxy as any)[inputArr[1]].uri)
+			return [...promptArr, {command: input, result: `Loading html-file`}]
 		}
 
 		let res: string = (promptData as any)[input] ? (promptData as any)[input]?.result : `Invalid command.<br />Type "help" for a list of supported commands.`
@@ -221,6 +240,13 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 		if (storedPromptArr) {
 			const promptArr = storedPromptArr ? JSON.parse(storedPromptArr) : []
 			setPromptArr(promptArr)
+			console.log("Trigger 1")
+
+			const filteredInput = inputFilter(`view ~/${history.state.as.replaceAll(`/`, ``)}.html`)
+			//console.log(filteredInput)
+			const result: promptObj[] = handleCommand(filteredInput, false)
+			setPromptArr(result)
+
 		} else {
 			sessionStorage.setItem('promptArr', JSON.stringify(promptArr))
 		}
@@ -236,13 +262,23 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	useEffect(() => {
 		const handleRouteChange = (url: string) => {
 
-			console.log(`handleRouteChange:`)
+			//console.log(`handleRouteChange:`)
+			//console.log(promptArr)
+
 			console.log(promptArr)
+			console.log(promptArr[promptArr.length - 1])
+			if (promptArr[promptArr.length - 1]) console.log(promptArr[promptArr.length - 1].command.includes(history.state.as.replaceAll(`/`, ``)))
+
+			if (
+				promptArr[promptArr.length - 1] &&
+				promptArr[promptArr.length - 1].command.includes(history.state.as)
+			) return // Skip if the command is already in the prompt array.
 
 			const filteredInput = inputFilter(`view ~${url}.html`)
-			console.log(filteredInput)
+			//console.log(filteredInput)
 			const result: promptObj[] = handleCommand(filteredInput)
 			setPromptArr(result)
+			console.log("Trigger 2")
 
 			// It happens. but we must wait.
 			// Add "fake" prompt command to keep concistency.
