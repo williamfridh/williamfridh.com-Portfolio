@@ -29,6 +29,7 @@ export interface HomeProps {
 }
 
 export interface promptObj {
+	folder: 	string;
 	command: 	string;
 	result: 	string;
 }

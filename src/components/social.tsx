@@ -20,7 +20,7 @@ interface Props {
  */
 const Social: React.FC<Props> = ({ socialMedia }) => {
 	return (
-		<nav className='mt-2'>
+		<nav className='mt-2 mb-8'>
 			{socialMedia.map(({label, uri}, key) => (
 				<Link 
 					href={uri}

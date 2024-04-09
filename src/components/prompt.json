@@ -1,6 +1,6 @@
 {
 	"help": {
-		"result": "# Help Commands<br />## Availiable is listed below.<br />website --version = display version<br />reset = reset console<br />ls = print list of files in current dir<br />view [filename] = view page<br />cat [filename] = display file content"
+		"result": "# Help Commands<br />## Availiable is listed below.<br />website --version = display version<br />reset = reset console<br />ls = print list of files in current dir<br />view [filename] = view html-file<br />cat [filename] = display txt-file content"
 	},
 	"gurka": {
 		"result": "Johan, is that you?"

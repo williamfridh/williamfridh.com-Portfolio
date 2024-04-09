@@ -18,7 +18,7 @@ interface Props {
  */
 const Header: React.FC<Props> = ({ generalSettings }) => {
 	return (
-		<header className='flex'>
+		<header className='flex pt-8'>
 			<div className='size-20 md:size-36 mr-4'>
 				<Image
 					src='/images/headshot.jpg'

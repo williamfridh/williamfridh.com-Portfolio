@@ -26,7 +26,7 @@ interface Props {
 const Page: React.FC<Props> = ({ generalSettings, page, projectList, menuItems, socialMedia }) => {
     return (
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
-            <h2 className='mt-8'><span dangerouslySetInnerHTML={{ __html: page.title }}></span></h2>
+            <h2><span dangerouslySetInnerHTML={{ __html: page.title }}></span></h2>
             <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
             {page.displayPortfolioElement === true && 
                 <Portfolio projectList={projectList} />

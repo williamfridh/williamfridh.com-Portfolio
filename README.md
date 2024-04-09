@@ -39,3 +39,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 - badges from:
 https://github.com/alexandresanlim/Badges4-README.md-Profile?tab=readme-ov-file
+
+# Setup
+
+1. Clone the repository.
+2. Follow the instructions in file ".env.example".

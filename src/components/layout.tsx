@@ -68,20 +68,19 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 right-0
                 px-4
                 pl-[3.25rem]
-                py-8
+                bp-8
                 overflow-scroll
                 overflow-x-hidden
                 flex
                 place-content-center
                 transition-width
                 duration-200
-                max-w-full
             `}>
-                <div className={`h-fit mb-32`}>
+                <div className={`h-fit mb-32 max-w-3xl`}>
                     <Header generalSettings={generalSettings} />
                     <Navigation menuItems={menuItems} />
                     <Social socialMedia={socialMedia} />
-                    {children}
+                    <article>{children}</article>
                 </div>
             </main>
         </div>

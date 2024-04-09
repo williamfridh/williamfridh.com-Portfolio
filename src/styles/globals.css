@@ -15,19 +15,22 @@
 		@apply text-xl md:text-3xl;
 	}
 	h4 {
-		@apply text-base md:text-lg;
+		@apply text-xl md:text-lg;
 	}
 	h5 {
-		@apply text-sm md:text-2xl;
+		@apply text-xl md:text-2xl;
 	}
 	h1, h2, h3, h4, h5 {
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
+	}
+	article h1, article h2, article h3, article h4, article h5 {
+		@apply sticky top-0 w-full;
 	}
 	p {
 		@apply my-2 md:my-4 space-y-2 md:space-y-4;
 	}
 	p, li, a, i {
-		@apply text-amber-400 max-w-full text-lg leading-5 md:text-2xl;
+		@apply text-amber-400 max-w-full text-xl leading-6 md:text-2xl;
 	}
 	p, ul {
 		@apply max-w-lg;
@@ -50,7 +53,7 @@
 	}
 
 	.content > * {
-		@apply max-w-lg;;
+		@apply w-[48rem];
 	}
 }
 

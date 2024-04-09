@@ -1,7 +1,6 @@
 {
     "recipes": {
-        "type": "folder",
-        "pancakes": {
+        "pancakes.txt": {
             "type": "txt",
             "content": "Ingredients are flour, milk, eggs, sugar, and butter. Mix all ingredients in a bowl\nHeat a pan\nPour a small amount of the mixture into the pan\nCook until golden brown\nServe with syrup."
         }

@@ -26,7 +26,7 @@ interface Props {
  */
 const Portfolio: React.FC<Props> = ({ projectList }) => {
 	return (
-		<div className='grid grid-cols-[min-content_auto] gap-y-4 max-w-3xl'>
+		<div className='grid grid-cols-[min-content_auto] gap-y-4'>
 			{projectList.map((project, key) => (
 				<Link href={project.uri} key={key} className='contents'>
 					{/*<div className='pl-2 mt-4 flex max-w-3xl'>*/}
