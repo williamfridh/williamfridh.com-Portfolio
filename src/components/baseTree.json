@@ -1,5 +1,5 @@
 {
-    "recipies": {
+    "recipes": {
         "type": "folder",
         "pancakes": {
             "type": "txt",
