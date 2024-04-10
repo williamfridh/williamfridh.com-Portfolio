@@ -4,6 +4,7 @@ import { GetStaticProps } from 'next';
 import Layout from '../../components/layout';
 import Image from 'next/image'
 import BadgeList from '@/components/BadgeList';
+import NavigationButton from '@/components/navigationButton';
 
 
 
@@ -26,7 +27,7 @@ interface ProjectProps {
 /**
  * Element.
  */
-const Project: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
+const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
     return (
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
             <div className='content'>
@@ -34,10 +35,12 @@ const Project: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, 
                 <Image
                     src={WP_URL + project.image}
                     alt={`Picture showing the project ${project.title}`}
-                    width={720}
+                    width={768}
                     height={1280}
                     className='border-amber-400 border-t-4'
                     />
+                {project.github && <NavigationButton uri={project.github} label='View on GitHub' />}
+                {project.uri && <NavigationButton uri={project.uri} label='View on live version' />}
                 <BadgeList badgeList={project.techStack} />
                 <p><b>{project.summary}</b></p>
                 {project.content && <div dangerouslySetInnerHTML={{__html: project.content }}></div>}
@@ -45,7 +48,7 @@ const Project: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, 
         </Layout>
     );
 };
-export default Project;
+export default ProjectPage;
 
 
 

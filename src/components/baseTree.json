@@ -1,8 +1,13 @@
 {
     "recipes": {
         "pancakes.txt": {
-            "type": "txt",
             "content": "Ingredients are flour, milk, eggs, sugar, and butter. Mix all ingredients in a bowl\nHeat a pan\nPour a small amount of the mixture into the pan\nCook until golden brown\nServe with syrup."
         }
+    },
+    "kth_knowledge.txt": {
+        "content": "Mathematics<br />Computer Programming<br />Engineering and Communication<br />Digital Electronics<br />Modern Software Development<br />Computer Security<br />Industrial Economics"
+    },
+    "old_projects.txt": {
+        "content": "A CMS with support for posts, pages, plugins, and themes.<br />A platform that offered free hosting for HTML, CSS, JavaScript, and images, accessible via a custom subdomain (intended for educational purposes).<br />A platform for creating, and managing digital quotes.<br />An order management system (collab).<br />And so on…"
     }
 }

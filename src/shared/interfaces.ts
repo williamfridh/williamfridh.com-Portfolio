@@ -66,6 +66,7 @@ interface ProjectFields {
 	end: 		string;
 	link: 		string;
 	role: 		string;
+	github: 	string;
 }
 
 export interface MenuItem{

@@ -58,10 +58,12 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
     }, [])
     
     return (
-        <div className={noiseEffect ? `noise-effect` : ``}>
+        <>
+            {noiseEffect && <div className={`noise-effect`}></div>}
             <Prompt menuItems={menuItems} socialMedia={socialMedia} togglePrompt={togglePrompt} showPrompt={showPrompt} />
             <main id={`content`} className={`
                 bg-neutral-700
+                w-full
                 h-screen
                 fixed
                 ${showPrompt ? `_scaled` : `_full`}
@@ -76,14 +78,14 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 transition-width
                 duration-200
             `}>
-                <div className={`h-fit mb-32 max-w-3xl`}>
+                <div className={`h-fit mb-32 w-full sm:w-auto`}>
                     <Header generalSettings={generalSettings} />
                     <Navigation menuItems={menuItems} />
                     <Social socialMedia={socialMedia} />
                     <article>{children}</article>
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 export default Layout

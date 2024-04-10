@@ -114,7 +114,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 * relevant to the simulated command prompt.
 	 */
 	const inputFilter = (input: string): string => {
-		const regex = /[^a-zA-Z0-9\.:/\-~\s"]/g
+		const regex = /[^a-zA-Z0-9_\.:/\-~\s"]/g
 		return input.replace(regex, '').toLowerCase()
 	}
 
@@ -335,7 +335,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 			top-0
 			bottom-0
 			w-full
-			sm:w-1/4
+			xl:w-1/4
 			bg-neutral-800
 			z-10
 			${showPrompt ? '_open' : '_closed'}

@@ -201,10 +201,12 @@ export const getProjects = async () => {
 					end
 					link
 					role
+					github
 				}
 				featuredImage {
 					node {
-						uri
+						uri,
+						github
 					}
 				}
 			}
@@ -221,6 +223,7 @@ export const getProjects = async () => {
 		end:		project.projectFields.end,
 		link:		project.projectFields.link,
 		role:		project.projectFields.role,
+		github:		project.projectFields.github,
 		image:		project.featuredImage ? project.featuredImage.node.uri : null
 	}));
 }
