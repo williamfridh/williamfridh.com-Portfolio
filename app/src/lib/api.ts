@@ -205,8 +205,7 @@ export const getProjects = async () => {
 				}
 				featuredImage {
 					node {
-						uri,
-						github
+						uri
 					}
 				}
 			}
