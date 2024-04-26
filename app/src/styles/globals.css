@@ -18,7 +18,7 @@
 		@apply text-xl md:text-xl lg:text-lg;
 	}
 	h5 {
-		@apply text-xl md:text-xl lg:text-2xl;
+		@apply text-base md:text-xl lg:text-2xl;
 	}
 	h1, h2, h3, h4, h5 {
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;

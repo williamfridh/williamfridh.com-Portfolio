@@ -28,6 +28,7 @@ interface ProjectProps {
  * Element.
  */
 const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
+    console.log(project);
     return (
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
             <div className='content'>
@@ -39,8 +40,8 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
                     height={1280}
                     className='border-amber-400 border-t-4'
                     />
-                {project.github && <NavigationButton uri={project.github} label='View on GitHub' />}
-                {project.uri && <NavigationButton uri={project.uri} label='View on live version' />}
+                {project.github && <NavigationButton uri={project.github} label='View on GitHub' target='blank' />}
+                {project.uri && <NavigationButton uri={project.uri} label='View live version' target='blank' />}
                 <BadgeList badgeList={project.techStack} />
                 <p><b>{project.summary}</b></p>
                 {project.content && <div dangerouslySetInnerHTML={{__html: project.content }}></div>}

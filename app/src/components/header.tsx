@@ -29,7 +29,7 @@ const Header: React.FC<Props> = ({ generalSettings }) => {
 			</div>
 			<div>
 				<h1>{generalSettings.title}</h1>
-				<h5 className='mt-4'>{generalSettings.description}</h5>
+				<h5 className='mt-5 md:mt-4'>{generalSettings.description}</h5>
 			</div>
 		</header>
 	);

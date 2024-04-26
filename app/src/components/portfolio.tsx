@@ -3,6 +3,7 @@ import { Project } from '../shared/interfaces';
 import Link from 'next/link';
 import Date from './date';
 import BadgeList from './BadgeList';
+import NavigationButton from './navigationButton';
 
 interface Props {
 	projectList: Project[];
@@ -25,7 +26,7 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 			sm:gap-y-4
 			`}>
 			{projectList.map((project, key) => (
-				<Link href={project.uri} key={key} className={`contents`}>
+				<div className='contents relative'>
 					<div className={`
 						border-r-4
 						border-amber-400
@@ -46,10 +47,12 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 						<h3 className={`flex justify-between`}><>{project.title}</><span className={`sm:hidden`}>{timePeriodFormatting(project)}</span></h3>
 						<div className={`pl-4 sm:pl-0`}>
 							<p>{project.summary}</p>
+							<NavigationButton uri={project.uri} label='View project' />
 							<BadgeList badgeList={project.techStack} />
 						</div>
 					</div>
-				</Link>
+					<div className='absolute top-0 right-0 bottom-0 left-0 bg-amber-400 hidden hover:block'></div>
+				</div>
 			))}
 		</div>
 	);

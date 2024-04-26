@@ -275,6 +275,7 @@ export const getProject = async (id: string) => {
 			  start
 			  techStack
 			  summary
+			  github
 			}
 			featuredImage {
 			  node {
@@ -296,6 +297,7 @@ export const getProject = async (id: string) => {
 		end:		p.projectFields.end,
 		link:		p.projectFields.link,
 		role:		p.projectFields.role,
+		github:		p.projectFields.github,
 		image:		p.featuredImage ? p.featuredImage.node.uri : null
 	};
 }
