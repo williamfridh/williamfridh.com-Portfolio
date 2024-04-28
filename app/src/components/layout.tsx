@@ -34,7 +34,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
      * on the APP for those who prefer less distractions.
      */
     const [noiseEffect, setNoiseEffect] = useState(true)
-    const [showPrompt, setShowPrompt] = useState(true)
+    const [showPrompt, setShowPrompt] = useState(false)
 
     /**
      * Toggle prompt.
@@ -53,8 +53,10 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
      * is detected.
      */
     useEffect(() => {
-        if (window.innerWidth < Number(large_screen_width_threshhold))
-            setShowPrompt(false)
+        if (window.innerWidth >= Number(large_screen_width_threshhold))
+            setTimeout(() => {
+                setShowPrompt(true)
+            }, 500)
     }, [])
     
     return (
