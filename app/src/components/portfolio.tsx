@@ -43,12 +43,13 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 						border-l-4
 						sm:border-0
 						mb-4
+						sm:mb-0
 						`}>
 						<h3 className={`flex justify-between`}><>{project.title}</><span className={`sm:hidden`}>{timePeriodFormatting(project)}</span></h3>
 						<div className={`pl-4 sm:pl-0`}>
 							<p>{project.summary}</p>
 							<BadgeList badgeList={project.techStack} />
-							<Link href={project.uri}><Button label={`View project`} /></Link>
+							<Link href={project.uri} className='mt-2 block'><Button label={`Read more`} /></Link>
 						</div>
 					</div>
 				</div>
