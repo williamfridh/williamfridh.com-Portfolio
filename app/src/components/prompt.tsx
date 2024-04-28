@@ -1,3 +1,10 @@
+/**
+ * IDEAS:
+ * - Start of by splitting the prompt into a separate components (string into array). Then travel
+ * trough the array and check word by word to execute the command to and catch errors and unsupported
+ * commands.
+ */
+
 import React, { useState, ChangeEvent, useLayoutEffect, useEffect } from 'react'
 import PromptRow from './promptRow'
 import { promptObj } from '../shared/interfaces'
