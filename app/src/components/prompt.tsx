@@ -12,6 +12,8 @@ import promptData from './prompt.json'
 import baseTree from './baseTree.json'
 import { MenuItem } from '../shared/interfaces'
 import { useRouter } from 'next/router'
+import { set } from 'date-fns'
+import { get } from 'http'
 
 
 
@@ -28,7 +30,13 @@ interface MenuItemsBranch {
 	[key: string]: {
 		uri: string
 	}
-  
+}
+interface File {
+	content?:	string
+	uri?:		string
+}
+interface Branch {
+	[key: string]: Branch|File
 }
 
 
@@ -64,7 +72,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 * and the provided menu items and social media information.
 	 */
 	const menuItemsBranchPart = convertMenuItemsToBranchPart(menuItems)
-	const root = {
+	const root: Branch = {
 		...menuItemsBranchPart,
 		...baseTree
 	}
@@ -156,6 +164,131 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 */
 	const handleCommand = (input: string, performeAction: boolean = true): promptObj[] => {
 
+		const getFileNameFromPath = (file: string) => {
+			const fileArr = file.split(`/`)
+			const filename = fileArr[fileArr.length - 1]
+			return filename
+		}
+
+		const isFolder = (file: string) => {
+			return getFileExtension(file.split('/').slice(-1)[0]) === undefined
+		}
+
+		const getFile = (file: string) => {
+			const fullFile = folder + "/" + file
+			const fileArr = fullFile.split(`/`).slice(1)
+
+			// Attend ".."
+			let finalFileArr = []
+			for (let i = 0; i < fileArr.length; i++) {
+				if (i !== fileArr.length - 1 && !isFolder(fileArr[i]))
+					return null
+				if (fileArr[i] === `..`)
+					finalFileArr.pop()
+				else if (fileArr[i] === `~`)
+					finalFileArr = []
+				else if (fileArr[i] !== `.`)
+					finalFileArr.push(fileArr[i])
+			}
+			const finalFilePath = finalFileArr.join(`/`)
+
+			let resultingFile: Branch | File = branch
+			for (let i = 0; i < finalFileArr.length; i++) {
+				if (i !== finalFileArr.length - 1 && !isFolder(finalFileArr[i]))
+					return null
+				resultingFile = (resultingFile as Branch)[finalFileArr[i]]
+			}
+			return {
+				folder: finalFilePath,
+				file: resultingFile
+			}
+		}
+
+		const getFileExtension = (file: string) => {
+			return file.split(`.`)[1]
+		}
+
+		const ifFileExists = (file: string) => {
+			return getFile(file) !== null
+		}
+
+		const invalidCommand = () => {
+			return [...promptArr, {
+				folder: folder,
+				command: input,
+				result: `Invalid command.<br />Type "help" for a list of supported commands.`
+			}]
+		}
+
+		const listFiles = (branchProxy: Branch) => {
+			return Object.keys(branchProxy).join(`<br />`);
+		};
+
+
+		const handleCd = (rest: string[]): promptObj[] => {
+			const fileName = getFileNameFromPath(rest[0])
+			if (!isFolder(fileName))
+				return [...promptArr, {
+					folder: folder,
+					command: input,
+					result: `Not a folder.`
+				}]
+			const getFileResult = getFile(fileName)
+			if (getFileResult === null)
+				return [...promptArr, {
+					folder: folder,
+					command: input,
+					result: `File doesn't exist.`
+				}]
+			setFolder(getFileResult.folder)
+			setBranch(getFileResult.file as Branch) // Cast getFileResult.file as Branch
+			return [...promptArr, {folder: folder, command: input, result: "Changed directory."}]
+		}
+
+		const handleLs = (rest: string[]): promptObj[] => {
+
+			if (rest[0] && !isFolder(rest[0]))
+				return [...promptArr, {
+					folder: folder,
+					command: input,
+					result: `Not a folder.`
+				}]
+
+			let file;
+			if (rest.length === 0)
+				file = branch
+			else
+				file = getFile(rest[0])?.file
+
+			if (file === null || file === undefined)
+				return [...promptArr, {
+					folder: folder,
+					command: input,
+					result: `Folder doesn't exist.`
+				}]
+
+			return [...promptArr, {folder: folder, command: input, result: listFiles(file as Branch)}]
+		}
+
+		const stringArr = input.split(` `)					// Split up the input string into an array.
+		const restOfStringArr = stringArr.slice(1);			// Get the rest of the string array.
+		switch(stringArr[0]) {								// Check if the first word is a command.
+			case `cd`:										// Change directory.
+				return handleCd(restOfStringArr)
+			case `view`:									// View file.
+				//return handleView(restOfStringArr)
+			case `cat`:										// View file.
+				//return handleCat(restOfStringArr)
+			case `ls`: 										// List files.
+				return handleLs(restOfStringArr)
+			case `reset`: 									// Reset console.
+				//return handleReset(restOfStringArr)
+			case `help`: 									// Help.
+				//return handleHelp(restOfStringArr)
+			default: 										// Invalid command.
+				return invalidCommand()
+		}
+/*
 		switch (input) {
 			case 'reset':
 				sessionStorage.setItem('promptArr', ``)
@@ -210,7 +343,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 		return [...promptArr, {folder: folder, command: input, result: res}]
 	
 		//return [...promptArr, {command: input, result: `Invalid command.<br />Type "help" for a list of supported commands.`}]
-
+*/
 	}
 
 	/**

@@ -1,21 +1,30 @@
-import React from 'react';
-import Icon from './icon';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Icon from './icon'
 
 interface BadgeListProps {
-  badgeList: string;
+	badgeList: string
 }
 
 const BadgeList: React.FC<BadgeListProps> = ({ badgeList }) => {
-  return (
-    <div className='text-zero leading-none'>
-      {badgeList.split(/, |,/).sort().map((name, key) => (
-        <span className='inline-block mr-2 mt-2' key={key}>
-          <Icon name={name} />
-        </span>
-      ))}
-    </div>
-  );
-};
+	if (typeof badgeList !== 'string')
+		return null
 
-export default BadgeList;
+	const badges = badgeList.split(/, |,/).sort()
 
+	return (
+		<div className='text-zero leading-none'>
+			{badges.map((name) => (
+				<span className='inline-block mr-2 mt-2' key={name}>
+					<Icon name={name} />
+				</span>
+			))}
+		</div>
+	)
+}
+
+BadgeList.propTypes = {
+	badgeList: PropTypes.string.isRequired,
+}
+
+export default BadgeList
