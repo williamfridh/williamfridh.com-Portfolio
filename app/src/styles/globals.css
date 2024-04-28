@@ -18,13 +18,16 @@
 		@apply text-xl md:text-xl lg:text-lg;
 	}
 	h5 {
-		@apply text-xl md:text-xl lg:text-2xl;
+		@apply text-base md:text-xl lg:text-2xl;
 	}
 	h1, h2, h3, h4, h5 {
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
 	}
 	article h1, article h2, article h3, article h4, article h5 {
-		@apply sticky top-0 w-full z-10;
+		@apply w-full;
+	}
+	article h1, article h2 {
+		@apply sticky top-0 z-10;
 	}
 	p {
 		@apply my-2 md:my-4 space-y-2 md:space-y-4;

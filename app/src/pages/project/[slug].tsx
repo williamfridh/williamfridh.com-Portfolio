@@ -4,17 +4,11 @@ import { GetStaticProps } from 'next';
 import Layout from '../../components/layout';
 import Image from 'next/image'
 import BadgeList from '@/components/BadgeList';
-import NavigationButton from '@/components/navigationButton';
-
-
+import Button from '@/components/button';
+import Link from 'next/link';
 
 const WP_URL = process.env.NEXT_PUBLIC_WP_URL;
 
-
-
-/**
- * File specific interfaces and types.
- */
 interface ProjectProps {
     generalSettings:    GeneralSettings;
     menuItems:          MenuItem[];
@@ -22,12 +16,8 @@ interface ProjectProps {
     socialMedia:        MenuItem[];
 }
 
-
-
-/**
- * Element.
- */
 const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
+    console.log(project);
     return (
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
             <div className='content'>
@@ -39,8 +29,10 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
                     height={1280}
                     className='border-amber-400 border-t-4'
                     />
-                {project.github && <NavigationButton uri={project.github} label='View on GitHub' />}
-                {project.uri && <NavigationButton uri={project.uri} label='View on live version' />}
+                    <div className='*:mr-2 *:mt-2 *:inline-block'>
+                        {project.github && <Link href={project.github} target='_blank'><Button label='View on GitHub' /></Link>}
+                        {project.link && <Link href={project.link} target='_blank'><Button label='View live version' /></Link>}
+                    </div>
                 <BadgeList badgeList={project.techStack} />
                 <p><b>{project.summary}</b></p>
                 {project.content && <div dangerouslySetInnerHTML={{__html: project.content }}></div>}
@@ -50,11 +42,6 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
 };
 export default ProjectPage;
 
-
-
-/**
- * Get Static Paths.
- */
 export const getStaticPaths = (async () => {
     const slugList = await getProjectSlugs();
     return {
@@ -63,11 +50,6 @@ export const getStaticPaths = (async () => {
     };
 })
 
-
-
-/**
- * Get Static Props.
- */
 export const getStaticProps: GetStaticProps = (async ({ params }) => {
 
     let slug: string = '';
@@ -89,3 +71,4 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
 		},
 	};
 })
+
