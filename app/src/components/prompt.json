@@ -1,11 +1,11 @@
 {
 	"help": {
-		"result": "# Help Commands<br />## Availiable is listed below.<br />website --version = display version<br />reset = reset console<br />ls = print list of files in current dir<br />view [filename] = view html-file<br />cat [filename] = display txt-file content"
+		"result": "# Help Commands<br />## Availiable is listed below.<br />website --version = display version<br />reset = reset console<br />ls [path (optional)] = print list of files in current dir<br />view [filename] = view html-file<br />cat [filename] = display txt-file content"
 	},
 	"gurka": {
 		"result": "Johan, is that you?"
 	},
-	"website --version": {
+	"version": {
 		"result": "Version 1337.42"
 	}
 }

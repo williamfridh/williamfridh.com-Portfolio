@@ -8,9 +8,10 @@ interface Props {
 const Navigation: React.FC<Props> = ({ menuItems }) => {
 	return (
 		<nav className='mt-2'>
-			{menuItems.map(({label, uri}, key) => (
-				<NavigationButton uri={uri} label={label} key={key} />
-			))}
+			{menuItems.map(({label, uri}, key) => {
+				const newUri = uri === '/' ? '/home' : uri
+				return <NavigationButton uri={newUri} label={label} key={key} />
+			})}
 		</nav>
 	)
 }

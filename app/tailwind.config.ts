@@ -1,5 +1,9 @@
 import type { Config } from "tailwindcss";
 
+// Temporary fix for known issue with tailwind-scrollbar plugin.
+// SRC: https://javascript.plainenglish.io/typescript-cannot-find-name-require-8e327dde6363
+declare var require: any;
+
 const config: Config = {
 	content: [
 	"./src/shared/**/*.{js,ts,jsx,tsx,mdx}",
@@ -17,7 +21,9 @@ const config: Config = {
 			}
 		},
 	},
-	plugins: [],
+    plugins: [
+        require('tailwind-scrollbar')({ preferredStrategy: 'pseudoelements' }),  // default: 'standard'
+    ],
 };
 export default config;
 

@@ -26,7 +26,7 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 			sm:gap-y-4
 			`}>
 			{projectList.map((project, key) => (
-				<div className='contents'>
+				<div className='contents' key={key}>
 					<div className={`
 						border-r-4
 						border-amber-400
