@@ -174,32 +174,37 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 			return getFileExtension(file.split('/').slice(-1)[0]) === undefined
 		}
 
-		const getFile = (file: string) => {
-			const fullFile = folder + "/" + file
-			const fileArr = fullFile.split(`/`).slice(1)
+		const getFile = (path: string) => {
+
+			// Combine path with current folder and clean up the new path.
+			const fullPath = folder + "/" + path
+			const rootPathArr = fullPath.split("~")
+			let rootpath = rootPathArr[rootPathArr.length - 1]
+			rootpath = rootpath.replaceAll(`./`, ``).replaceAll(`//`, `/`)
+			rootpath = rootpath.charAt(0) === `/` ? rootpath.substring(1) : rootpath
+			const rootPathArrCleaned = rootpath.split(`/`)
 
 			// Attend ".."
-			let finalFileArr = []
-			for (let i = 0; i < fileArr.length; i++) {
-				if (i !== fileArr.length - 1 && !isFolder(fileArr[i]))
+			let finalPathArr = []
+			for (let i = 0; i < rootPathArr.length; i++) {
+				if (i !== rootPathArrCleaned.length - 1 && !isFolder(rootPathArrCleaned[i]))
 					return null
-				if (fileArr[i] === `..`)
-					finalFileArr.pop()
-				else if (fileArr[i] === `~`)
-					finalFileArr = []
-				else if (fileArr[i] !== `.`)
-					finalFileArr.push(fileArr[i])
+				if (rootPathArrCleaned[i] === `..`)
+					finalPathArr.pop()
+				else
+					finalPathArr.push(rootPathArr[i])
 			}
-			const finalFilePath = finalFileArr.join(`/`)
+			const finalPath = finalPathArr.join(`/`)
 
 			let resultingFile: Branch | File = branch
-			for (let i = 0; i < finalFileArr.length; i++) {
-				if (i !== finalFileArr.length - 1 && !isFolder(finalFileArr[i]))
+			for (let i = 0; i < finalPathArr.length; i++) {
+				if (i !== finalPathArr.length - 1 && !isFolder(finalPathArr[i]))
 					return null
-				resultingFile = (resultingFile as Branch)[finalFileArr[i]]
+				resultingFile = (resultingFile as Branch)[finalPathArr[i]]
 			}
+
 			return {
-				folder: finalFilePath,
+				folder: finalPath,
 				file: resultingFile
 			}
 		}
