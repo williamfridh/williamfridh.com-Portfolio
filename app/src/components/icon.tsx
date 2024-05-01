@@ -70,7 +70,8 @@ const Icon: React.FC<Props> = ({ name }) => {
 			return ColabBadge({});
 		case 'discord':
 			return DiscordBadge({});
-		case 'open cv':
+		case 'open cv':	
+		case 'opencv':
 			return OpenCVBadge({});
 		case 'tensorflow':
 			return TensorflowBadge({});
@@ -84,6 +85,10 @@ const Icon: React.FC<Props> = ({ name }) => {
 			return FirebaseBadge({});
 		case 'google analytics':
 			return GoogleAnalyticsBadge({});
+		case 'python':
+			return PythonBadge({});
+		case 'numpy':
+			return NumpyBadge({});
 		default:
 			return name;
 
@@ -236,5 +241,9 @@ const NodeJSBadge: React.FC<{}> = (props) => (
 
 const NPMBadge: React.FC<{}> = (props) => (
 	<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="72.75" height="28" role="img" aria-label="NPM"><title>NPM</title><g shapeRendering="crispEdges"><rect width="72.75" height="28" fill="#cb3837"/></g><g fill="#fff" textAnchor="middle" fontFamily="Verdana,Geneva,DejaVu Sans,sans-serif" textRendering="geometricPrecision" fontSize="100"><image x="9" y="7" width="14" height="14" xlinkHref="data:image/svg+xml;base64,PHN2ZyBmaWxsPSJ3aGl0ZSIgcm9sZT0iaW1nIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPm5wbTwvdGl0bGU+PHBhdGggZD0iTTEuNzYzIDBDLjc4NiAwIDAgLjc4NiAwIDEuNzYzdjIwLjQ3NEMwIDIzLjIxNC43ODYgMjQgMS43NjMgMjRoMjAuNDc0Yy45NzcgMCAxLjc2My0uNzg2IDEuNzYzLTEuNzYzVjEuNzYzQzI0IC43ODYgMjMuMjE0IDAgMjIuMjM3IDB6TTUuMTMgNS4zMjNsMTMuODM3LjAxOS0uMDA5IDEzLjgzNmgtMy40NjRsLjAxLTEwLjM4MmgtMy40NTZMMTIuMDQgMTkuMTdINS4xMTN6Ii8+PC9zdmc+"/><text transform="scale(.1)" x="463.75" y="175" textLength="287.5" fill="#fff" fontWeight="bold">NPM</text></g></svg>
+)
+
+const NumpyBadge: React.FC<{}> = (props) => (
+	<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="90.25" height="28" role="img" aria-label="NUMPY"><title>NUMPY</title><g shape-rendering="crispEdges"><rect width="90.25" height="28" fill="#777bb4"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="100"><image x="9" y="7" width="14" height="14" xlinkHref="data:image/svg+xml;base64,PHN2ZyBmaWxsPSJ3aGl0ZSIgcm9sZT0iaW1nIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRpdGxlPk51bVB5PC90aXRsZT48cGF0aCBkPSJNMTAuMzE1IDQuODc2TDYuMzA0OCAyLjg1MTdsLTQuNDAxIDIuMTk2NSA0LjExODYgMi4wNjgzem0xLjgzODEuOTI3N2w0LjIwNDUgMi4xMjIzLTQuMzYyMiAyLjE5MDYtNC4xMjUtMi4wNzE4em01LjYxNTMtMi45MjEzbDQuMzE5MyAyLjE2NTgtMy44NjMgMS45NDAyLTQuMjEzMS0yLjEyNTJ6bS0xLjg1OS0uOTMyOUwxMi4wMjEgMCA4LjE3NDIgMS45MTkzbDQuMDA2OCAyLjAyMDh6bS0zLjA0MDEgMTYuNzQ0M1YyNGw0LjcxMDctMi4zNTA3LS4wMDUzLTUuMzA4NXptNC43MDM3LTQuMjA1N2wtLjAwNTItNS4yNTI4LTQuNjk4NSAyLjMzNTZ2NS4yNTQ2em01LjY1NTMtLjk4NDV2NS4zMjdsLTQuMDE3OCAyLjAwNTItLjAwMjktNS4zMDI4em0wLTEuODYyNlY2LjQyMTRsLTQuMDI1MyAyLjAwMS4wMDM0IDUuMjYzM3pNMTEuMjA2MiAxMS41NzFMOC4wMzMzIDkuOTc1NnY2Ljg5NXMtMy44ODA0LTguMjU2NC00LjIzOTktOC45OThjLS4wNDYzLS4wOTU3LS4yMzcxLS4yMDA3LS4yODU4LS4yMjYyQzIuODExOCA3LjI4MTIuNzczIDYuMjQ4NS43NzMgNi4yNDg1VjE4LjQzbDIuODIwNCAxLjUwNzZ2LTYuMzY3NHMzLjgzOTIgNy4zNzc1IDMuODc4IDcuNDU4Yy4wMzg5LjA4MDcuNDI0NS44NTgyLjgzNjIgMS4xMzE0LjU0ODUuMzYzIDIuODk5MiAxLjc3NjYgMi44OTkyIDEuNzc2NnoiLz48L3N2Zz4="/><text transform="scale(.1)" x="551.25" y="175" textLength="462.5" fill="#fff" font-weight="bold">NUMPY</text></g></svg>
 )
 	
