@@ -11,18 +11,20 @@
 ![image](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
 ![image](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-**Welcome to the repository containing my portoflio website. It uses the techonlogies Next.js (thus also React JS), TypeScript, Tailwind CSS, TypeScript, GraphQL, and deploys to Vercel. A liver version is avalible at [WilliamFridh.com](https://williamfridh.com/). it has basic support for pages and in addition, portfolio and make use [Advanced Custom Fields (ACF)](https://www.advancedcustomfields.com/).**
+**Welcome to the repository containing my portfolio website. It uses the technologies Next.js (thus also React JS), TypeScript, Tailwind CSS, TypeScript, GraphQL, and deploys to Vercel. A liver version is available at [WilliamFridh.com](https://williamfridh.com/). it has basic support for pages and in addition, portfolio and makes use [Advanced Custom Fields (ACF)](https://www.advancedcustomfields.com/).**
+
+Note that this README.md file covers both folders in this repository: "app", and "cms". CMS however only contains a theme used for displaying an error message upon visiting the URL where WordPress is located.
 
 ## Background
 
-This project is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) that I built on to archieve my vision. It was requested as part of the course [EH1021 Active Career Start](https://www.kth.se/student/kurser/kurs/EH1021) with the goal to prepare us as students for the job application process.
+This project is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) that I built on to achieve my vision. It was requested as part of the course [EH1021 Active Career Start](https://www.kth.se/student/kurser/kurs/EH1021) with the goal of preparing us as students for the job application process.
 
 # Running The APP
 
 1. Clone the repository.
-2. Follow the instructions in file ".env.example".
-3. Read trough the code and find what's required by the WordPress GraphQL.
-4. Run the veleopment server:
+2. Follow the instructions in the file ".env.example".
+3. Read through the code and find what's required by the WordPress GraphQL.
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -34,7 +36,7 @@ pnpm dev
 bun dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see website in action.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the website in action.
 
 # info
 
@@ -58,8 +60,8 @@ The website has unique styling for certain elements to keep the theme consistent
 </ul>
 ```
 
-- The menu is to be loaded from a menu byt the name "Main".
-- The social menu is to be loaded from a menu byt the name "Social".
+- The menu is to be loaded from a menu by the name "Main".
+- The social menu is to be loaded from a menu by the name "Social".
 
 # Sources:
 
