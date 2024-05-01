@@ -29,7 +29,6 @@ const Social: React.FC<Props> = ({ socialMedia }) => {
 					className='
 						pr-2
 						inline-block
-						hover:fill-amber-400
 					'>
 					<Icon name={label} />
 				</Link>

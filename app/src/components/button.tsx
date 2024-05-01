@@ -14,8 +14,8 @@ const Button: React.FC<Props> = ({ label }) => {
                 border-2
                 border-amber-400
                 border-solid
-                hover:bg-amber-400
-                hover:text-neutral-800
+                xl:hover:bg-amber-400
+                xl:hover:text-neutral-800
             `}
         >
             <span className='text-xl md:text-2xl'>{label} &gt;&gt;</span>

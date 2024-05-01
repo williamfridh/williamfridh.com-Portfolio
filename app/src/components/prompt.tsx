@@ -487,8 +487,8 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 						text-amber-400
 						absolute
 						right-0
-						hover:bg-amber-400
-						hover:text-neutral-800
+						xl:hover:bg-amber-400
+						xl:hover:text-neutral-800
 						hover:cursor-pointer
 						text-3xl
 					'
