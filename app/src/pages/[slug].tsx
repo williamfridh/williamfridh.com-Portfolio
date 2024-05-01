@@ -75,6 +75,7 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
             menuItems,
             socialMedia
 		},
+        revalidate: process.env.REVALIDATE_SECONDS ? parseInt(process.env.REVALIDATE_SECONDS) : 1,
 	};
 })
 
