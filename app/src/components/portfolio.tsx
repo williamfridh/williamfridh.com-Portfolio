@@ -21,9 +21,11 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 
 	return (
 		<div className={`
-			sm:grid
+			grid
+			grid-cols-1
 			sm:grid-cols-[min-content_auto]
-			sm:gap-y-4
+			gap-y-8
+			sm:gap-y-16
 			`}>
 			{projectList.map((project, key) => (
 				<div className='contents' key={key}>
