@@ -18,7 +18,7 @@ const Button: React.FC<Props> = ({ label }) => {
                 xl:hover:text-neutral-800
             `}
         >
-            <span className='text-xl md:text-2xl'>{label} &gt;&gt;</span>
+            <span className='text-xl md:text-2xl text-nowrap'>{label} &gt;&gt;</span>
         </div>
     );
 }
