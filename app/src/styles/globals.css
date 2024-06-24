@@ -24,7 +24,7 @@
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
 	}
 	article h1, article h2, article h3, article h4, article h5 {
-		@apply w-full;
+		@apply w-full text-balance;
 	}
 	article h1, article h2 {
 		@apply sticky top-0 z-10;
@@ -79,7 +79,7 @@
 		}
 	}
 	figcaption {
-		@apply text-center text-amber-400 px-4 py-1 whitespace-nowrap w-full text-base sm:text-xl;
+		@apply text-center text-amber-400 px-4 py-1 whitespace-nowrap w-full text-base sm:text-xl text-balance;
 	}
 }
 
