@@ -29,6 +29,9 @@
 	article h1, article h2 {
 		@apply sticky top-0 z-10;
 	}
+	article h1:not(.title), article h2:not(.title) {
+		@apply mt-12 md:mt-16;
+	}
 	p {
 		@apply my-2 md:my-4 space-y-2 md:space-y-4;
 	}

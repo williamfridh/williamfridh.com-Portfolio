@@ -26,6 +26,8 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 			sm:grid-cols-[min-content_auto]
 			gap-y-8
 			sm:gap-y-16
+			mt-8
+			sm:mt-16
 			`}>
 			{projectList.map((project, key) => (
 				<div className='contents' key={key}>
