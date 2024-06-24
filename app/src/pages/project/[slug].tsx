@@ -42,13 +42,13 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
 };
 export default ProjectPage;
 
-export const getStaticPaths = (async () => {
+export const getStaticPaths = async () => {
     const slugList = await getProjectSlugs();
     return {
         paths:      slugList,
-        fallback:   false, // Set to true if you want to enable fallback behavior
+        fallback:   'blocking', // Enable ISR for new projects
     };
-})
+};
 
 export const getStaticProps: GetStaticProps = (async ({ params }) => {
 
