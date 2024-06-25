@@ -21,6 +21,9 @@ export interface PageData {
 	title: 						string;
 	content: 					string;
 	displayPortfolioElement: 	boolean;
+    seoTitle:           		string;
+    seoMetaDesc:        		string;
+    seoFullHead:        		string;
 }
 
 export interface HomeProps {
@@ -39,10 +42,13 @@ export interface ProjectSlug {
 }
 
 export interface Project extends ProjectFields {
-	title: 		string;
-	uri: 		string;
-	image: 		string;
-	content:	string|null;
+	title: 				string;
+	uri: 				string;
+	image: 				string;
+	content:			string|null;
+    seoTitle:           string;
+    seoMetaDesc:        string;
+    seoFullHead:        string;
 }
 
 export interface ProjectRaw {

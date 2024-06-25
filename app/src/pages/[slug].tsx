@@ -4,6 +4,8 @@ import { getGeneralSettings, getPageSlugs, getPage, getProjects, getMenuItems, g
 import { GeneralSettings, PageData, Project, MenuItem } from '../shared/interfaces';
 import { GetStaticProps } from 'next';
 import Portfolio from '../components/portfolio';
+import Head from 'next/head';
+import parse from "html-react-parser";
 
 
 
@@ -25,13 +27,20 @@ interface Props {
  */
 const Page: React.FC<Props> = ({ generalSettings, page, projectList, menuItems, socialMedia }) => {
     return (
-        <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
-            <h2 className='title'><span dangerouslySetInnerHTML={{ __html: page.title }}></span></h2>
-            <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
-            {page.displayPortfolioElement === true && 
-                <Portfolio projectList={projectList} />
-            }
-        </Layout>
+        <>
+            <Head>
+                <title>{page.seoTitle}</title>
+                <meta name='description' content={page.seoMetaDesc} />
+                {parse(page.seoFullHead)}
+            </Head>
+            <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
+                <h2 className='title'><span dangerouslySetInnerHTML={{ __html: page.title }}></span></h2>
+                <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
+                {page.displayPortfolioElement === true && 
+                    <Portfolio projectList={projectList} />
+                }
+            </Layout>
+        </>
     );
 };
 export default Page;
