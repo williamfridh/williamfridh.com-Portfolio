@@ -81,6 +81,15 @@
 	figcaption {
 		@apply text-center text-amber-400 px-4 py-1 whitespace-nowrap w-full text-base sm:text-xl text-balance;
 	}
+	/**
+	 * Source: https://www.magicpattern.design/tools/css-backgrounds
+	 */
+	img {
+		@apply bg-amber-400;
+		background-image:		epeating-linear-gradient(45deg, #404040 25%, transparent 25%, transparent 75%, #404040 75%, #404040), repeating-linear-gradient(45deg, #404040 25%, transparent 25%, transparent 75%, #404040 75%, #404040);
+		background-position:	0 0, 10px 10px;
+		background-size:		20px 20px;
+	}
 }
 
 @layer base {

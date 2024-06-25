@@ -22,13 +22,13 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
         <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
             <div className='content'>
                 <h2 dangerouslySetInnerHTML={{ __html: project.title }} className='mt-8'></h2>
-                <Image
+                {project.image && <Image
                     src={WP_URL + project.image}
                     alt={`Picture showing the project ${project.title}`}
                     width={768}
-                    height={1280}
+                    height={436}
                     className='border-amber-400 border-t-4'
-                    />
+                    />}
                     <div className='*:mr-2 *:mt-2 *:inline-block'>
                         {project.github && <Link href={project.github} target='_blank'><Button label='View on GitHub' /></Link>}
                         {project.link && <Link href={project.link} target='_blank'><Button label='View live version' /></Link>}
