@@ -163,6 +163,31 @@ export const getMenuItems = async() => {
 
 
 /**
+ * Get title, subtitle, logo, and favicon.
+ */
+export const getSiteMetadata = async () => {
+	const data = await fetchAPI(`
+	query GetSiteMetadata {
+		generalSettings {
+			title
+			description
+		}
+		customLogoUrl
+		siteIconUrl
+	}
+	`);
+	const t = data;
+	return {
+		siteTitle:		t.generalSettings.title,
+		siteSubtitle:	t.generalSettings.description,
+		logo:			t.customLogoUrl,
+		favicon:		t.siteIconUrl
+	}
+}
+
+
+
+/**
  * Get Social Media.
  * 
  * @returns {Promise<MenuItem[]>}

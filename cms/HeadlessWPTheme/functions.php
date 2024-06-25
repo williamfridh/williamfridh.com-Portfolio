@@ -10,6 +10,18 @@ add_action('after_setup_theme', 'theme_setup');
 function theme_setup() {
 	// Add support for post thumbnails
 	add_theme_support('post-thumbnails');
+
+    // Add support for custom logo
+    add_theme_support('custom-logo', array(
+        'height'      => 512,
+        'width'       => 512,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ));
+
+    // Add support for site icon (favicon)
+    add_theme_support('site_icon');
+	
 }
 
 add_filter('graphql_data_is_private', function ($is_private, $model_name, $data, $visibility, $owner, $current_user) {
@@ -36,3 +48,46 @@ function filter_wpseo_sitemap_index_links( $links ) {
   }; 
   add_filter( 'wpseo_sitemap_index_links', 'filter_wpseo_sitemap_index_links', 10, 1 );
 
+/**
+ * Add custom field for logo to the REST API.
+ */
+add_action('graphql_register_types', 'register_custom_logo_graphql_field');
+function register_custom_logo_graphql_field() {
+    register_graphql_field('RootQuery', 'customLogoUrl', [
+        'type' => 'String',
+        'description' => 'URL of the custom logo.',
+        'resolve' => function() {
+            $custom_logo_id = get_theme_mod('custom_logo');
+            if (!$custom_logo_id) {
+                return null;
+            }
+            $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+            if (!is_array($logo) || !isset($logo[0])) {
+                return null;
+            }
+            return $logo[0];
+        },
+    ]);
+}
+
+/**
+ * Add custom field for site icon to the REST API.
+ */
+add_action('graphql_register_types', 'register_site_icon_graphql_field');
+function register_site_icon_graphql_field() {
+	register_graphql_field('RootQuery', 'siteIconUrl', [
+		'type' => 'String',
+		'description' => 'URL of the site icon.',
+		'resolve' => function() {
+			$site_icon_id = get_option('site_icon');
+			if (!$site_icon_id) {
+				return null;
+			}
+			$icon = wp_get_attachment_image_src($site_icon_id, 'full');
+			if (!is_array($icon) || !isset($icon[0])) {
+				return null;
+			}
+			return $icon[0];
+		},
+	]);
+}
