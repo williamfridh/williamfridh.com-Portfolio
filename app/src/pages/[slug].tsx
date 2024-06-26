@@ -1,8 +1,8 @@
-import Layout from '../components/layout';
-import { getGeneralSettings, getPageSlugs, getPage, getProjects, getMenuItems, getSocialMedia } from '../lib/api';
-import { GeneralSettings, PageData, Project, MenuItem } from '../shared/interfaces';
+import Layout from '@/components/layout';
+import { getGeneralSettings, getPageSlugs, getPage, getProjects, getMenuItems, getSocialMedia } from '@/lib/api';
+import { GeneralSettings, PageData, Project, MenuItem } from '@/shared/interfaces';
 import { GetStaticProps } from 'next';
-import Portfolio from '../components/portfolio';
+import Portfolio from '@/components/portfolio';
 import Head from 'next/head';
 import parse from "html-react-parser";
 

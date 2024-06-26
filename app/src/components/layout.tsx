@@ -1,22 +1,15 @@
-import React, { ReactNode, useState, useEffect } from 'react'
-import Prompt from '../components/prompt'
-import Header from '../components/header'
-import Navigation from '../components/navigation'
-import { GeneralSettings, MenuItem } from '../shared/interfaces'
-import Social from '../components/social'
+import React, { ReactNode, useState, useEffect, use } from 'react'
+import Prompt from '@/components/prompt/prompt'
+import Header from '@/components/header'
+import Navigation from '@/components/navigation'
+import { GeneralSettings, MenuItem } from '@/shared/interfaces'
+import Social from '@/components/social'
 import { useSwipeable } from 'react-swipeable'
-import useWindowDimensions from '../hooks/useWindowDimensions'
+import useWindowDimensions from '@/hooks/useWindowDimensions'
 import { useRouter } from 'next/router'
+import useGrainEffect from '@/hooks/useGrainEffect'
+import usePrompt from '@/hooks/usePrompt'
 
-
-
-const large_screen_width_threshhold = process.env.NEXT_PUBLIC_WP_LARGE_SCREEN_WIDTH_THRESHHOLD
-
-
-
-/**
- * File specific interfaces and types.
- */
 interface Props {
     children:           ReactNode
     generalSettings:    GeneralSettings
@@ -24,23 +17,12 @@ interface Props {
     socialMedia:        MenuItem[]
 }
 
-
-
-/**
- * The layout component is the main layout for the application.
- */
 const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialMedia }) => {
 
-    const { width, height } = useWindowDimensions();
+    const { width, height } = useWindowDimensions()
 	const router = useRouter()
-
-    /**
-     * Keep states for special effects and layout here.
-     * Remember to to add toggles for the extra features
-     * on the APP for those who prefer less distractions.
-     */
-    const [noiseEffect, setNoiseEffect] = useState(true)
-    const [showPrompt, setShowPrompt] = useState(false)
+    const { grainEffect, setGrainEffect } = useGrainEffect();
+    const { showPrompt, setShowPrompt, layoutReady } = usePrompt();
 
     /**
      * Toggle prompt.
@@ -69,19 +51,6 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
     });
 
     /**
-     * Set data upon activation.
-     * 
-     * Hide the prompt as default if none large scren
-     * is detected.
-     */
-    useEffect(() => {
-        if (window.innerWidth >= Number(large_screen_width_threshhold))
-            setTimeout(() => {
-                setShowPrompt(true)
-            }, 500)
-    }, [])
-
-    /**
      * Scroll to  top on navigation.
      */
     useEffect(() => {
@@ -97,13 +66,26 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
             router.events.off('routeChangeComplete', handleRouteChange)
         }
     }, [])
+
+    /**
+     * On window resize.
+     */
+    useEffect(() => {
+        if (width && width >= Number(process.env.NEXT_PUBLIC_WP_LARGE_SCREEN_WIDTH_THRESHHOLD)) {
+            if (!showPrompt) setShowPrompt(true)
+        } else {
+            if (showPrompt) setShowPrompt(false)
+        }
+    }, [width])
     
     return (
-        <div {...handlers}>
-            {noiseEffect && <div className={`noise-effect`}></div>}
+        <div {...handlers} className={`
+                bg-neutral-700
+                h-screen
+            `}>
+            {grainEffect && <div className={`grain-effect`}></div>}
             <Prompt menuItems={menuItems} socialMedia={socialMedia} togglePrompt={togglePrompt} showPrompt={showPrompt} />
             <main id={`content`} className={`
-                bg-neutral-700
                 w-full
                 h-screen
                 fixed
@@ -117,7 +99,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 flex
                 place-content-center
                 transition-width
-                duration-200
+                ${layoutReady && `_layout-ready duration-200`}
             `}>
                 <div className={`h-fit mb-32 w-full sm:w-auto`}>
                     <Header generalSettings={generalSettings} />

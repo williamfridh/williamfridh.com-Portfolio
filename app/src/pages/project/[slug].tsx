@@ -1,7 +1,7 @@
-import { getGeneralSettings, getProject, getMenuItems, getSocialMedia, getProjectSlugs } from '../../lib/api';
-import { GeneralSettings, Project, MenuItem } from '../../shared/interfaces';
+import { getGeneralSettings, getProject, getMenuItems, getSocialMedia, getProjectSlugs } from '@/lib/api';
+import { GeneralSettings, Project, MenuItem } from '@/shared/interfaces';
 import { GetStaticProps } from 'next';
-import Layout from '../../components/layout';
+import Layout from '@/components/layout';
 import Image from 'next/image'
 import BadgeList from '@/components/BadgeList';
 import Button from '@/components/button';

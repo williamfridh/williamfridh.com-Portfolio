@@ -1,5 +1,5 @@
 import React from 'react';
-import { Project } from '../shared/interfaces';
+import { Project } from '@/shared/interfaces';
 import Link from 'next/link';
 import Date from './date';
 import BadgeList from './BadgeList';

@@ -82,3 +82,21 @@ export interface MenuItem{
 	uri: 	string;
 }
 
+
+export interface FileBranch {
+	[key: string]: {
+		uri?:		string
+		content?:	string
+	}
+}
+export interface File {
+	content?:	string
+	uri?:		string
+}
+export interface SocialMediaFile {
+	label:		string
+	uri:		string
+}
+export interface Branch {
+	[key: string]: Branch|File
+}

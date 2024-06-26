@@ -1,10 +1,13 @@
 import React, { useState, ChangeEvent, useEffect } from 'react'
 import PromptRow from './promptRow'
-import { promptObj } from '../shared/interfaces'
+import { Branch, FileBranch, SocialMediaFile, promptObj, File } from '@/shared/interfaces'
 import promptData from './prompt.json'
 import baseTree from './baseTree.json'
-import { MenuItem } from '../shared/interfaces'
+import { MenuItem } from '@/shared/interfaces'
 import { useRouter } from 'next/router'
+import usePrompt from '@/hooks/usePrompt'
+import hello_world from './program/hello_world'
+import terminal from './program/terminal'
 
 
 
@@ -17,23 +20,6 @@ interface PromptProps {
 	togglePrompt:	   	() => void
 	showPrompt:		   	boolean
 }
-interface FileBranch {
-	[key: string]: {
-		uri?:		string
-		content?:	string
-	}
-}
-interface File {
-	content?:	string
-	uri?:		string
-}
-interface SocialMediaFile {
-	label:		string
-	uri:		string
-}
-interface Branch {
-	[key: string]: Branch|File
-}
 
 
 
@@ -43,6 +29,8 @@ interface Branch {
  * This component is a simulated command prompt.
  */
 const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, showPrompt}) => {
+
+	const { layoutReady, setLayoutReady } = usePrompt();
 
 	/**
 	 * The router is used for catching clicks on Netx JS <Link /> elements.
@@ -98,6 +86,27 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	const [promptArr, setPromptArr] = useState<promptObj[]>([])
 	const [promptArrIndex, setPromptArrIndex] = useState(0)
 
+	const [program, setProgram] = useState('')
+	const [programData, setProgramData] = useState('{}')
+
+	/**
+	 * Terminate program.
+	 */
+	const terminateProgram = () => {
+		setProgram('')
+	}
+
+	/**
+	 * Listen for program start.
+	 */
+	useEffect(() => {
+		setProgramData('{}') // Reset program data.
+		if (program !== '') { // Initiate program.
+			const result: promptObj[] = handleCommand(promptInput)
+			setPromptArr(result)
+		}
+	}, [program])
+
 	/**
 	 * Handle Input Change.
 	 */
@@ -137,7 +146,6 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 			setPromptArr(result)
 			setPromptInput('')
 		}
-
 	}
 	
 	/**
@@ -149,210 +157,29 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 	 */
 	const handleCommand = (input: string, performeAction: boolean = true): promptObj[] => {
 
-		const getFileNameFromPath = (file: string) => {
-			const fileArr = file.split(`/`)
-			const filename = fileArr[fileArr.length - 1]
-			return filename
-		}
+		switch (program) {
 
-		const isFolder = (file: string) => {
-			return getFileExtension(file.split('/').slice(-1)[0]) === undefined
-		}
-
-		const getFile = (path: string) => {
-
-			// Combine path with current folder and clean up the new path.
-			const fullPath = folder + "/" + path
-			const rootPathArr = fullPath.split("~")
-			let rootpath = rootPathArr[rootPathArr.length - 1]
-			rootpath = rootpath.replaceAll(`//`, `/`)
-			rootpath = rootpath.charAt(0) === `/` ? rootpath.substring(1) : rootpath
-			const rootPathArrCleaned = rootpath.split(`/`)
-
-			// Remove empty strings.
-			for (let i = 0; i < rootPathArrCleaned.length; i++) {
-				if (rootPathArrCleaned[i] === ``)
-					rootPathArrCleaned.splice(i, 1)
-			}
-
-			// Attend ".."
-			let finalPathArr = []
-			for (let i = 0; i < rootPathArrCleaned.length; i++) {
-				if (rootPathArrCleaned[i] === `..`)
-					finalPathArr.pop()
-				if (i !== rootPathArrCleaned.length - 1 && !isFolder(rootPathArrCleaned[i]))
-					return null
-				else
-					if (rootPathArrCleaned[i] !== `..`)
-						finalPathArr.push(rootPathArrCleaned[i])
-			}
-			const finalPath = finalPathArr.join(`/`)
-
-			let resultingFile: Branch | File = root
-			if (finalPathArr.length > 0) {
-				for (let i = 0; i < finalPathArr.length; i++) {
-					if (
-						(i !== finalPathArr.length - 1 && !isFolder(finalPathArr[i])) ||
-						(resultingFile as Branch)[finalPathArr[i]] === undefined
-					)
-						return null
-					if (!['.', '..'].includes(finalPathArr[i]))
-						resultingFile = (resultingFile as Branch)[finalPathArr[i]]
-				}
-			}
-
-			return {
-				folder: finalPath,
-				file: resultingFile
-			}
-		}
-
-		const getFileExtension = (file: string) => {
-			return file.split(`.`)[1]
-		}
-
-		const invalidCommand = () => {
-			return [...promptArr, {
-				folder: folder,
-				command: input,
-				result: `Invalid command.<br />Type "help" for a list of supported commands.`
-			}]
-		}
-
-		const listFiles = (branchProxy: Branch) => {
-			return Object.keys(branchProxy).join(`<br />`);
-		};
-
-		const handleCd = (rest: string[]): promptObj[] => {
-			const fileName = getFileNameFromPath(rest[0])
-			if (!isFolder(fileName))
+			case 'hello_world.prog':
 				return [...promptArr, {
-					folder: folder,
+					folder: program,
 					command: input,
-					result: `Not a folder.`
-				}]
-			const getFileResult = getFile(rest[0])
-			if (getFileResult === null)
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `File doesn't exist.`
-				}]
-			setFolder(getFileResult.folder)
-			setBranch(getFileResult.file as Branch) // Cast getFileResult.file as Branch
-			return [...promptArr, {folder: folder, command: input, result: "Changed directory."}]
-		}
-
-		const handleLs = (rest: string[]): promptObj[] => {
-
-			if (rest[0] && !isFolder(rest[0]))
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `Not a folder.`
+					result: hello_world(input, programData, terminateProgram, setProgramData)
 				}]
 
-			let file;
-			if (rest.length === 0)
-				file = branch
-			else
-				file = getFile(rest[0])?.file
-
-			if (file === null || file === undefined)
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `Folder doesn't exist.`
-				}]
-
-			return [...promptArr, {folder: folder, command: input, result: listFiles(file as Branch)}]
-		}
-
-		const handleReset = (): promptObj[] => {
-			sessionStorage.setItem('promptArr', ``)
-			return [{folder: folder, command: input, result: 'Consol reset.'}]
-		}
-
-		const handleCat = (rest: string[]): promptObj[] => {
-			
-			if (rest[0] && isFolder(rest[0]))
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `Not a file.`
-				}]
-
-			const file = getFile(rest[0])?.file
-
-			if (file === null || file === undefined)
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `File doesn't exist.`
-				}]
-
-			if (file.content === undefined)
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `File doesn't have any content.`
-				}]
-
-			return [...promptArr, {folder: folder, command: input, result: file.content as string}]
-		}
-
-		const handleView = (rest: string[]): promptObj[] => {
-			
-			if (rest[0] && isFolder(rest[0]))
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `Not a file.`
-				}]
-
-			const file = getFile(rest[0])?.file
-
-			if (file === null || file === undefined)
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `File doesn't exist.`
-				}]
-
-			if (file.uri === undefined)
-				return [...promptArr, {
-					folder: folder,
-					command: input,
-					result: `File doesn't have a uri.`
-				}]
-
-			if (performeAction === true) router.push(file.uri as string)
-			
-			return [...promptArr, {folder: folder, command: input, result: `Loading file.`}]
-		}
-
-		const stringArr = input.split(` `)					// Split up the input string into an array.
-		const restOfStringArr = stringArr.slice(1);			// Get the rest of the string array.
-		switch(stringArr[0]) {								// Check if the first word is a command.
-			case `cd`:										// Change directory.
-				return handleCd(restOfStringArr)
-			case `view`:									// View file.
-				return handleView(restOfStringArr)
-			case `cat`:										// View file.
-				return handleCat(restOfStringArr)
-			case `ls`: 										// List files.
-				return handleLs(restOfStringArr)
-			case `reset`: 									// Reset console.
-				return handleReset()
-			default: 										// Invalid command.
-				if (promptData[stringArr[0] as keyof typeof promptData])
-					return [...promptArr, {
-						folder: folder,
-						command: input,
-						result: promptData[stringArr[0] as keyof typeof promptData].result
-					}]
-				else
-					return invalidCommand()
+			default:
+				return terminal(
+					folder,
+					root,
+					promptArr,
+					input,
+					setFolder,
+					setBranch,
+					branch,
+					setProgram,
+					promptData,
+					performeAction,
+					router
+				)
 		}
 	}
 
@@ -448,7 +275,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 			z-10
 			${showPrompt ? '_open' : '_closed'}
 			transition-left
-			duration-200
+			${layoutReady && `_layout-ready duration-200`}
 			pr-9
 		`}>
 			<div id='promptContent' className='h-[calc(100%-48px)] scrollbar-w-8 scrollbar scrollbar-thumb-amber-700 scrollbar-track-transparent overflow-y-scroll'>
@@ -463,7 +290,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 					type='text'
 					value={promptInput}
 					onChange={handleInputChange}
-					placeholder={`~/${folder}$ type help & press enter`}
+					placeholder={program === '' ? `~/${folder}$ type help & press enter` : `Type here`}
 					className='
 						col-span-1
 						h-12

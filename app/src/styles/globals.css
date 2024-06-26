@@ -24,7 +24,10 @@
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
 	}
 	article h1, article h2, article h3, article h4, article h5 {
-		@apply w-full text-balance;
+		@apply w-full;
+	}
+	article h1, article h2, article h3 {
+		@apply text-balance;
 	}
 	article h1, article h2 {
 		@apply sticky top-0 z-10;
@@ -64,20 +67,29 @@
 }
 
 @layer components {
-	div#prompt._open {
+	div#prompt._layout-ready._open {
 		@apply left-0;
 	}
-	div#prompt._closed {
+	div#prompt._layout-ready._closed,
+	div#prompt:not(._layout-ready) {
 		@apply -left-[calc(100%-2.25rem)] xl:-left-[calc(25%-2.25rem)];
 	}
 	@screen md {
-		main#content._full {
+		div#prompt:not(._layout-ready) {
+			@apply left-0;
+		}
+	}
+
+	@screen md {
+		main#content._layout-ready._full {
 			@apply w-full;
 		}
-		main#content._scaled {
+		main#content._layout-ready._scaled,
+		main#content:not(._layout-ready) {
 			@apply w-3/4;
 		}
 	}
+
 	figcaption {
 		@apply text-center text-amber-400 px-4 py-1 whitespace-nowrap w-full text-base sm:text-xl text-balance;
 	}
@@ -98,10 +110,10 @@
 	================== NOISE EFFECT ==================
 	SRC: https://codepen.io/ooblek/pen/vYxYomx
 	*/
-	.noise-effect {
+	.grain-effect {
 		@apply fixed top-0 right-0 bottom-0 left-0 z-50 pointer-events-none opacity-5;
 	}
-	.noise-effect::before {
+	.grain-effect::before {
 		content:			"";
 		background-image:	url("/images/1k_Dissolve_Noise_Texture.png");
 		height:				300%;
