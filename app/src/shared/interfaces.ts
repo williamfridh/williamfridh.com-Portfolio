@@ -1,6 +1,8 @@
 export interface GeneralSettings {
 	title: 			string;
 	description: 	string;
+	customLogoUrl:	string;
+	siteIconUrl:	string;
 }
 
 export interface PageSlug {

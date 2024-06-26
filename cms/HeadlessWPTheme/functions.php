@@ -43,10 +43,10 @@ function filter_wpseo_sitemap_index_links( $links ) {
 	$home = parse_url(get_option('home'));
 	$site = parse_url(get_option('siteurl'));
 	foreach($links as $i => $link)
-	  $links[$i]['loc'] = str_replace($home, $site, $link['loc']);
+	    $links[$i]['loc'] = str_replace($home, $site, $link['loc']);
 	return $links; 
-  }; 
-  add_filter( 'wpseo_sitemap_index_links', 'filter_wpseo_sitemap_index_links', 10, 1 );
+}; 
+add_filter( 'wpseo_sitemap_index_links', 'filter_wpseo_sitemap_index_links', 10, 1 );
 
 /**
  * Add custom field for logo to the REST API.

@@ -66,10 +66,17 @@ export const getGeneralSettings = async () => {
 		generalSettings {
 			title
 			description
-		}
+		},
+		customLogoUrl
+		siteIconUrl
 	}`
 	);
-	return data.generalSettings;
+	return {
+		title: 			data.generalSettings.title,
+		description: 	data.generalSettings.description,
+		customLogoUrl: 	data.customLogoUrl,
+		siteIconUrl: 	data.siteIconUrl
+	};
 }
 
 
@@ -158,31 +165,6 @@ export const getMenuItems = async() => {
 		label: 	node.label,
 		uri: 	node.uri
 	}));
-}
-
-
-
-/**
- * Get title, subtitle, logo, and favicon.
- */
-export const getSiteMetadata = async () => {
-	const data = await fetchAPI(`
-	query GetSiteMetadata {
-		generalSettings {
-			title
-			description
-		}
-		customLogoUrl
-		siteIconUrl
-	}
-	`);
-	const t = data;
-	return {
-		siteTitle:		t.generalSettings.title,
-		siteSubtitle:	t.generalSettings.description,
-		logo:			t.customLogoUrl,
-		favicon:		t.siteIconUrl
-	}
 }
 
 
