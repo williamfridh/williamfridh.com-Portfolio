@@ -66,10 +66,17 @@ export const getGeneralSettings = async () => {
 		generalSettings {
 			title
 			description
-		}
+		},
+		customLogoUrl
+		siteIconUrl
 	}`
 	);
-	return data.generalSettings;
+	return {
+		title: 			data.generalSettings.title,
+		description: 	data.generalSettings.description,
+		customLogoUrl: 	data.customLogoUrl,
+		siteIconUrl: 	data.siteIconUrl
+	};
 }
 
 
@@ -110,19 +117,27 @@ export const getPage = async(id: String) => {
 	const data = await fetchAPI(`
 		query GetPage {
 			page(id: "${id}", idType: URI) {
-			  title
-			  content
-			  customPageFields {
-				displayPortfolioElement
-			  }
-			}
-		  }
+				title
+				content
+				customPageFields {
+					displayPortfolioElement
+			  	}
+				seo {
+					metaDesc
+					fullHead
+					title
+				}
+			}	
+		}
 	`);
 	const p = data.page;
 	return {
 		title: 						p.title,
 		content: 					p.content,
-		displayPortfolioElement: 	p.customPageFields.displayPortfolioElement
+		displayPortfolioElement: 	p.customPageFields.displayPortfolioElement,
+		seoTitle:					p.seo.title,
+		seoMetaDesc:				p.seo.metaDesc,
+		seoFullHead:				p.seo.fullHead
 	}
 }
 
@@ -282,23 +297,31 @@ export const getProject = async (id: string) => {
 				uri
 			  }
 			}
+			seo {
+				metaDesc
+				fullHead
+				title
+			}
 		  }
 		}
 	`
 	);
 	const p = data.project;
 	return {
-		title:		p.title,
-		uri:		id,
-		content:	p.content,
-		summary:	p.projectFields.summary,
-		techStack:	p.projectFields.techStack,
-		start:		p.projectFields.start,
-		end:		p.projectFields.end,
-		link:		p.projectFields.link,
-		role:		p.projectFields.role,
-		github:		p.projectFields.github,
-		image:		p.featuredImage ? p.featuredImage.node.uri : null
+		title:			p.title,
+		uri:			id,
+		content:		p.content,
+		summary:		p.projectFields.summary,
+		techStack:		p.projectFields.techStack,
+		start:			p.projectFields.start,
+		end:			p.projectFields.end,
+		link:			p.projectFields.link,
+		role:			p.projectFields.role,
+		github:			p.projectFields.github,
+		image:			p.featuredImage ? p.featuredImage.node.uri : null,
+		seoTitle:		p.seo.title,
+		seoMetaDesc:	p.seo.metaDesc,
+		seoFullHead:	p.seo.fullHead
 	};
 }
 

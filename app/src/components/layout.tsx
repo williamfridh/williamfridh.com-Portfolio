@@ -4,6 +4,9 @@ import Header from '../components/header'
 import Navigation from '../components/navigation'
 import { GeneralSettings, MenuItem } from '../shared/interfaces'
 import Social from '../components/social'
+import { useSwipeable } from 'react-swipeable'
+import useWindowDimensions from '../hooks/useWindowDimensions'
+import { useRouter } from 'next/router'
 
 
 
@@ -28,6 +31,9 @@ interface Props {
  */
 const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialMedia }) => {
 
+    const { width, height } = useWindowDimensions();
+	const router = useRouter()
+
     /**
      * Keep states for special effects and layout here.
      * Remember to to add toggles for the extra features
@@ -47,6 +53,22 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
     }
 
     /**
+     * Swipe handlers.
+     * 
+     * These handlers are used to detect swipes on the
+     * screen and toggle the prompt accordingly.
+     */
+    const handlers = useSwipeable({
+        onSwipedLeft: () => setShowPrompt(false),
+        onSwipedRight: () => setShowPrompt(true),
+        trackTouch: true,
+        trackMouse: false,
+        swipeDuration: Infinity,
+        delta: width ? width * 0.3 : 1000,
+        preventScrollOnSwipe: false,
+    });
+
+    /**
      * Set data upon activation.
      * 
      * Hide the prompt as default if none large scren
@@ -58,9 +80,26 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 setShowPrompt(true)
             }, 500)
     }, [])
+
+    /**
+     * Scroll to  top on navigation.
+     */
+    useEffect(() => {
+        const handleRouteChange = () => {
+            document.getElementById('content')?.scrollTo(0, 0)
+        }
+
+        // Add event listener for route change
+        router.events.on('routeChangeComplete', handleRouteChange)
+
+        // Clean up event listener on component unmount
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [])
     
     return (
-        <>
+        <div {...handlers}>
             {noiseEffect && <div className={`noise-effect`}></div>}
             <Prompt menuItems={menuItems} socialMedia={socialMedia} togglePrompt={togglePrompt} showPrompt={showPrompt} />
             <main id={`content`} className={`
@@ -87,7 +126,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                     <article>{children}</article>
                 </div>
             </main>
-        </>
+        </div>
     )
 }
 export default Layout

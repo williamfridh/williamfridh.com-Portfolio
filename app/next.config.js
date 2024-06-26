@@ -10,6 +10,18 @@ module.exports = {
 			},
 		];
 	},
+	async rewrites() {
+        return [
+            {
+                source: '/(.*)sitemap.xml',
+                destination: '/api/sitemap-proxy'
+            },
+            {
+                source: '/sitemap(.*).xml',
+                destination: '/api/sitemap-proxy'
+            }
+        ];
+    },
 	images: {
 		remotePatterns: [
 			// Used for allowing loading assets from remote sources.
