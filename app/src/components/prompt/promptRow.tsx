@@ -20,10 +20,10 @@ interface Props {
  */
 const PromptRow: React.FC<Props> = ({ content, index }) => {
     return (
-        <div className='text-amber-400 leading-normal px-4 py-1 tracking-wider text-base'>
+        <div className='text-amber-400 leading-normal px-4 py-1 tracking-wider text-lg'>
             {content.command &&
                 <>
-                    <span className='font-bold mr-2'>{content.folder.includes(`prog`) ? `${content.folder}:` : `~${content.folder}$`}</span>
+                    <span className='font-bold mr-2'>{content.folder.includes(`.prog`) ? `${content.folder}:` : `~${content.folder}$`}</span>
                     {content.command}
                 </>
             }

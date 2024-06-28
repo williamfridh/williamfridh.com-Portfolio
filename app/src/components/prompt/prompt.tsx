@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent, useEffect } from 'react'
 import PromptRow from './promptRow'
 import { Branch, FileBranch, SocialMediaFile, promptObj, File } from '@/shared/interfaces'
 import promptData from './prompt.json'
-import baseTree from './baseTree.json'
 import { MenuItem } from '@/shared/interfaces'
 import { useRouter } from 'next/router'
 import usePrompt from '@/hooks/usePrompt'
@@ -10,6 +9,7 @@ import hello_world from './program/hello_world'
 import terminal from './program/terminal'
 import set_setting from './program/set_setting'
 import useGrainEffect from '@/hooks/useGrainEffect'
+import baseTree from './baseTree.json'
 
 
 
@@ -32,7 +32,24 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 
 	const { layoutReady, setLayoutReady } = usePrompt();
     const { grainEffect, setGrainEffect } = useGrainEffect();
-    const { showPrompt, setShowPrompt } = usePrompt();
+	const {
+		showPrompt,
+		setShowPrompt,
+		branch,
+		setBranch,
+		promptInput,
+		setPromptInput,
+		folder,
+		setFolder,
+		promptArr,
+		setPromptArr,
+		promptArrIndex,
+		setPromptArrIndex,
+		program,
+		setProgram,
+		programData,
+		setProgramData
+	} = usePrompt();
 
 	/**
 	 * The router is used for catching clicks on Netx JS <Link /> elements.
@@ -66,30 +83,17 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 		return result
 	}
 
+
 	/**
 	 * Construct root. This tree should include fun static branches
 	 * and the provided menu items and social media information.
 	 */
-	const menuItemsBranchPart = convertMenuItemsToBranchPart(menuItems)
-	const socialMediaBranchPart = convertSocialMediaToBranchPart(socialMedia)
 	const root: Branch = {
 		...convertMenuItemsToBranchPart(menuItems),
 		...baseTree,
 		"social-media": convertSocialMediaToBranchPart(socialMedia)
 	}
-
-	/**
-	 * The data is stored in state and some in session storage.
-	 * Session storage is solved futher down in the code.
-	 */
-	const [branch, setBranch] = useState(root)
-	const [promptInput, setPromptInput] = useState('')
-	const [folder, setFolder] = useState('')
-	const [promptArr, setPromptArr] = useState<promptObj[]>([])
-	const [promptArrIndex, setPromptArrIndex] = useState(0)
-
-	const [program, setProgram] = useState('')
-	const [programData, setProgramData] = useState('{}')
+	setBranch(root)
 
 	/**
 	 * Terminate program.
@@ -289,10 +293,21 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 	}, [])
 
 	/**
+	 * Filter url.
+	 * 
+	 * Remove what's not supported in the prompt.
+	 * For instance arguments and query strings.
+	 */
+	const filterUrl = (url: string): string => {
+		const urlParts = url.split('?')
+		return urlParts[0]
+	}
+
+	/**
 	 * Use effect to load promptArr from session storage on device.
 	 */
 	useEffect(() => {
-		const url = router.asPath
+		const url = filterUrl(router.asPath)
 		if (
 			promptArr[promptArr.length - 1]?.command.includes(`view`) &&
 			promptArr[promptArr.length - 1]?.command.includes((`${url}.html`).replaceAll(`/`, ``))
@@ -337,7 +352,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 						p-4
 						focus:outline-none
 						tracking-wider
-						text-base
+						text-xl
 					'
 					onKeyUp={togglePromptHistory}
 				/>

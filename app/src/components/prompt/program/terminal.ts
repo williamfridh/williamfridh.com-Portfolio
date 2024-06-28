@@ -199,13 +199,37 @@ const terminal = (
 
     const handleRun = (rest: string[]): promptObj[] => {
         // Check if the program is in the list.
-        // TODO - Add check.
+        
+        if (rest[0] && isFolder(rest[0]))
+            return [...promptArr, {
+                folder: folder,
+                command: input,
+                result: `Not a file.`
+            }]
+
+        const file = getFile(rest[0])?.file
+
+        if (file === null || file === undefined)
+            return [...promptArr, {
+                folder: folder,
+                command: input,
+                result: `File doesn't exist.`
+            }]
+
+        if (getFileExtension(rest[0]) !== `prog`)
+            return [...promptArr, {
+                folder: folder,
+                command: input,
+                result: `File is not a program.`
+            }]
+
         // Start program.
-        setProgram(rest[0])
+        const fileName  = getFileNameFromPath(rest[0])
+        setProgram(fileName)
         return [...promptArr, {
             folder: folder,
             command: input,
-            result: `Running ${rest[0]}`
+            result: `Running ${fileName}`
         }]
     }
 
