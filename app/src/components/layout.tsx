@@ -25,16 +25,6 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
     const { showPrompt, setShowPrompt, layoutReady } = usePrompt();
 
     /**
-     * Toggle prompt.
-     * 
-     * This function is used to toggle the prompt.
-     * It's passed to the prompt component.
-     */
-    const togglePrompt = () => {
-        setShowPrompt(!showPrompt)
-    }
-
-    /**
      * Swipe handlers.
      * 
      * These handlers are used to detect swipes on the
@@ -84,7 +74,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 h-screen
             `}>
             {grainEffect && <div className={`grain-effect`}></div>}
-            <Prompt menuItems={menuItems} socialMedia={socialMedia} togglePrompt={togglePrompt} showPrompt={showPrompt} />
+            <Prompt menuItems={menuItems} socialMedia={socialMedia} />
             <main id={`content`} className={`
                 w-full
                 h-screen

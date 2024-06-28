@@ -8,6 +8,8 @@ import { useRouter } from 'next/router'
 import usePrompt from '@/hooks/usePrompt'
 import hello_world from './program/hello_world'
 import terminal from './program/terminal'
+import set_setting from './program/set_setting'
+import useGrainEffect from '@/hooks/useGrainEffect'
 
 
 
@@ -17,8 +19,6 @@ import terminal from './program/terminal'
 interface PromptProps {
     menuItems:          MenuItem[]
     socialMedia:        MenuItem[]
-	togglePrompt:	   	() => void
-	showPrompt:		   	boolean
 }
 
 
@@ -28,9 +28,11 @@ interface PromptProps {
  * 
  * This component is a simulated command prompt.
  */
-const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, showPrompt}) => {
+const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 
 	const { layoutReady, setLayoutReady } = usePrompt();
+    const { grainEffect, setGrainEffect } = useGrainEffect();
+    const { showPrompt, setShowPrompt } = usePrompt();
 
 	/**
 	 * The router is used for catching clicks on Netx JS <Link /> elements.
@@ -166,6 +168,34 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 					result: hello_world(input, programData, terminateProgram, setProgramData)
 				}]
 
+			case 'set_grain.prog':
+				return [...promptArr, {
+					folder: program,
+					command: input,
+					result: set_setting(
+						input,
+						programData,
+						terminateProgram,
+						setProgramData,
+						`grainEffect`,
+						setGrainEffect
+					)
+				}]
+
+			case 'set_prompt.prog':
+				return [...promptArr, {
+					folder: program,
+					command: input,
+					result: set_setting(
+						input,
+						programData,
+						terminateProgram,
+						setProgramData,
+						`showPrompt`,
+						setShowPrompt
+					)
+				}]
+
 			default:
 				return terminal(
 					folder,
@@ -201,6 +231,13 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, togglePrompt, sh
 					setPromptArrIndex(promptArrIndex - 1)
 				break;
 		}
+	}
+
+	/**
+	 * Toggle prompt.
+	 */
+	const togglePrompt = () => {
+		setShowPrompt(!showPrompt)
 	}
 
 	/**
