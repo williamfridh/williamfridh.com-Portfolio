@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 import PromptRow from './promptRow'
-import { Branch, FileBranch, SocialMediaFile, promptObj, File } from '@/shared/interfaces'
+import { Branch, FileBranch, SocialMediaFile, promptObj } from '@/shared/interfaces'
 import promptData from './prompt.json'
 import { MenuItem } from '@/shared/interfaces'
 import { useRouter } from 'next/router'
@@ -30,8 +30,8 @@ interface PromptProps {
  */
 const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 
-	const { layoutReady, setLayoutReady } = usePrompt();
-    const { grainEffect, setGrainEffect } = useGrainEffect();
+	const { layoutReady } = usePrompt();
+    const { setGrainEffect } = useGrainEffect();
 	const {
 		showPrompt,
 		setShowPrompt,
@@ -93,7 +93,8 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 		...baseTree,
 		"social-media": convertSocialMediaToBranchPart(socialMedia)
 	}
-	setBranch(root)
+	if (Object.keys(branch).length === 0)
+		setBranch(root)
 
 	/**
 	 * Terminate program.
@@ -268,7 +269,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 	 * to the scrollHeight.
 	 */
 	useEffect(() => {
-		sessionStorage.setItem('promptArr', JSON.stringify(promptArr))
+		//sessionStorage.setItem('promptArr', JSON.stringify(promptArr))
 
 		const promptContent = document.getElementById('promptContent');
 		if (promptContent) {
@@ -279,7 +280,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 	/**
 	 * Use effect to load promptArr from session storage on device.
 	 */
-	useEffect(() => {
+	/*useEffect(() => {
 
 		const handleRouteChangeComplete = () => {
 			setPromptArr(JSON.parse(sessionStorage.getItem('promptArr') || '[]'))
@@ -290,7 +291,7 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 		return () => {
 			router.events.off('routeChangeComplete', handleRouteChangeComplete)
 		}
-	}, [])
+	}, [])*/
 
 	/**
 	 * Filter url.

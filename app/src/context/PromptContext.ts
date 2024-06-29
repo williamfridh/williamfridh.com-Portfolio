@@ -1,7 +1,7 @@
 import { Branch, promptObj } from '@/shared/interfaces';
 import { createContext } from 'react';
 
-// Define the context shape
+// Define the interface for the context.
 interface PromptContextType {
 	showPrompt: boolean;
 	setShowPrompt: (value: boolean) => void;
@@ -24,7 +24,7 @@ interface PromptContextType {
 	setProgramData: (value: string) => void;
 }
 
-// Create the context with an undefined default value
+// Create the context with an undefined default value.
 const PromptContext = createContext<PromptContextType | undefined>(undefined);
 
 export default PromptContext;

@@ -28,7 +28,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
 	 * The data is stored in state and some in session storage.
 	 * Session storage is solved futher down in the code.
 	 */
-	const [branch, setBranch] = useState<Branch>({} as Branch)
+	const [branch, setBranch] = useState<Branch>({})
 	const [promptInput, setPromptInput] = useState('')
 	const [folder, setFolder] = useState('')
 	const [promptArr, setPromptArr] = useState<promptObj[]>([])
