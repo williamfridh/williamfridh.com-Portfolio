@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { MenuItem } from '../shared/interfaces';
+import { MenuItem } from '@/shared/interfaces';
 import Icon from './icon'
 
 

@@ -1,4 +1,4 @@
-import { MenuItem } from '../shared/interfaces'
+import { MenuItem } from '@/shared/interfaces'
 import NavigationButton from './navigationButton'
 
 interface Props {

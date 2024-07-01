@@ -9,5 +9,9 @@
     },
     "old_projects.txt": {
         "content": "A CMS with support for posts, pages, plugins, and themes.<br />A platform that offered free hosting for HTML, CSS, JavaScript, and images, accessible via a custom subdomain (intended for educational purposes).<br />A platform for creating, and managing digital quotes.<br />An order management system (collab).<br />And so on…"
+    },
+    "programs": {
+        "grain_effect.prog": {},
+        "prompt_toggle.prog": {}
     }
 }

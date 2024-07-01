@@ -1,4 +1,4 @@
-import { PageSlug, ProjectRaw, ProjectSlug, MenuItem } from '../shared/interfaces';
+import { PageSlug, ProjectRaw, ProjectSlug, MenuItem } from '@/shared/interfaces';
 
 
 

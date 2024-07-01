@@ -1,0 +1,11 @@
+{
+	"help": {
+		"result": "# Help Commands<br />## Availiable is listed below.<br />version = display version<br />reset = reset console<br />ls [path (optional)] = print list of files in current directory<br />view [filename] = view html-file<br />cat [filename] = display txt-file content<br />run [program] = runs target program"
+	},
+	"gurka": {
+		"result": "Johan, is that you?"
+	},
+	"version": {
+		"result": "Version 1.2.5"
+	}
+}

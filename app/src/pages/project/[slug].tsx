@@ -1,7 +1,7 @@
-import { getGeneralSettings, getProject, getMenuItems, getSocialMedia, getProjectSlugs } from '../../lib/api';
-import { GeneralSettings, Project, MenuItem } from '../../shared/interfaces';
+import { getGeneralSettings, getProject, getMenuItems, getSocialMedia, getProjectSlugs, getProjects } from '@/lib/api';
+import { GeneralSettings, Project, MenuItem } from '@/shared/interfaces';
 import { GetStaticProps } from 'next';
-import Layout from '../../components/layout';
+import Layout from '@/components/layout';
 import Image from 'next/image'
 import BadgeList from '@/components/BadgeList';
 import Button from '@/components/button';
@@ -15,10 +15,11 @@ interface ProjectProps {
     generalSettings:    GeneralSettings;
     menuItems:          MenuItem[];
 	project:            Project;
+    projectList:        Project[];
     socialMedia:        MenuItem[];
 }
 
-const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia }) => {
+const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia, projectList }) => {
     return (
         <>
             <Head>
@@ -26,7 +27,7 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
                 <meta name='description' content={project.seoMetaDesc} />
                 {parse(project.seoFullHead)}
             </Head>
-            <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
+            <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia} projectList={projectList}>
                 <div className='content'>
                     <h2 dangerouslySetInnerHTML={{ __html: project.title }} className='mt-8'></h2>
                     {project.image && <Image
@@ -67,6 +68,7 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
 
     const project            = await getProject(slug);
 	const generalSettings    = await getGeneralSettings();
+    const projectList        = await getProjects();
     const menuItems          = await getMenuItems();
     const socialMedia        = await getSocialMedia();
     
@@ -74,6 +76,7 @@ export const getStaticProps: GetStaticProps = (async ({ params }) => {
 		props: {
 			generalSettings,
             project,
+            projectList,
             menuItems,
             socialMedia
 		},

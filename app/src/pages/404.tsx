@@ -10,7 +10,7 @@ const Custom404: React.FC<Props> = () => {
         <div className='
             bg-neutral-700
             '>
-            {<div className={`noise-effect`}></div>}
+            {<div className={`grain-effect`}></div>}
             <div className='
                 grid
                 h-screen
