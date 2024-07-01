@@ -44,25 +44,24 @@
 	p, ul, a {
 		@apply max-w-[calc(100%-2.25rem)] sm:max-w-lg;
 	}
-	li {
-		@apply w-fit relative pl-4 border-amber-400 border-l-2 overflow-hidden;
-	}
-	li:first-child {
-		@apply bg-amber-400 text-neutral-800 px-2;
-	}
-	li:not(:first-child)::before {
-		content: '→';
-		
-		position: absolute;
-		left: -5px;
-		top: 1px;
-	}
 	p > a {
 		@apply underline;
 	}
 
 	main#content > * {
 		@apply md:w-[48rem];
+	}
+
+	/*
+	 * ================== Lists ==================
+	 */
+	li {
+		@apply w-fit relative pl-4;
+	}
+	li:not(:first-child)::before {
+		content: '■';
+
+		@apply text-sm absolute left-0 top-[0.125rem] md:top-[calc(0.125rem+0.25rem)];
 	}
 }
 
@@ -98,9 +97,25 @@
 	 */
 	img {
 		@apply bg-amber-400;
-		background-image:		epeating-linear-gradient(45deg, #404040 25%, transparent 25%, transparent 75%, #404040 75%, #404040), repeating-linear-gradient(45deg, #404040 25%, transparent 25%, transparent 75%, #404040 75%, #404040);
+		background-image:		repeating-linear-gradient(45deg, #404040 25%, transparent 25%, transparent 75%, #404040 75%, #404040), repeating-linear-gradient(45deg, #404040 25%, transparent 25%, transparent 75%, #404040 75%, #404040);
 		background-position:	0 0, 10px 10px;
 		background-size:		20px 20px;
+	}
+
+	/**
+	 * Loading animation.
+	 */
+	.loading-animation {
+		@apply block;
+	}
+	.loading-animation-row {
+		@apply flex justify-center;
+	}
+	.loading-animation-col {
+		@apply w-4 h-4 flex justify-center items-center;
+	}
+	.loading-animation-cell {
+		@apply bg-amber-400;
 	}
 }
 

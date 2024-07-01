@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useEffect } from 'react'
 import PromptRow from './promptRow'
-import { Branch, FileBranch, SocialMediaFile, promptObj } from '@/shared/interfaces'
+import { Branch, FileBranch, Project, SocialMediaFile, promptObj } from '@/shared/interfaces'
 import promptData from './prompt.json'
 import { MenuItem } from '@/shared/interfaces'
 import { useRouter } from 'next/router'
 import usePrompt from '@/hooks/usePrompt'
 import hello_world from './program/hello_world'
 import terminal from './program/terminal'
-import set_setting from './program/set_setting'
+import setting from './program/setting'
 import useGrainEffect from '@/hooks/useGrainEffect'
 import baseTree from './baseTree.json'
 
@@ -19,6 +19,7 @@ import baseTree from './baseTree.json'
 interface PromptProps {
     menuItems:          MenuItem[]
     socialMedia:        MenuItem[]
+	projectList:		Project[]
 }
 
 
@@ -28,10 +29,10 @@ interface PromptProps {
  * 
  * This component is a simulated command prompt.
  */
-const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
+const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, projectList}) => {
 
 	const { layoutReady } = usePrompt();
-    const { setGrainEffect } = useGrainEffect();
+    const { grainEffect, setGrainEffect } = useGrainEffect();
 	const {
 		showPrompt,
 		setShowPrompt,
@@ -85,11 +86,32 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 
 
 	/**
+	 * Convert projects to branch part.
+	 * 
+	 * Example:
+	 * "/project/mobile-vr-game/" => "mobile-vr-game.html"
+	 */
+	const convertProjectsToBranchPart = (projectList: Project[]) => {
+		let result: FileBranch = {}
+		projectList.forEach(({uri}) => {
+			const fileName = uri.split(`/`)[2] + `.html`
+			result[fileName] = {
+				uri: uri
+			}
+		})
+		return {
+			"project": result
+		}
+	}
+
+
+	/**
 	 * Construct root. This tree should include fun static branches
 	 * and the provided menu items and social media information.
 	 */
 	const root: Branch = {
 		...convertMenuItemsToBranchPart(menuItems),
+		...convertProjectsToBranchPart(projectList),
 		...baseTree,
 		"social-media": convertSocialMediaToBranchPart(socialMedia)
 	}
@@ -173,31 +195,33 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia}) => {
 					result: hello_world(input, programData, terminateProgram, setProgramData)
 				}]
 
-			case 'set_grain.prog':
+			case 'grain_effect.prog':
 				return [...promptArr, {
 					folder: program,
 					command: input,
-					result: set_setting(
+					result: setting(
 						input,
 						programData,
 						terminateProgram,
 						setProgramData,
 						`grainEffect`,
-						setGrainEffect
+						setGrainEffect,
+						grainEffect
 					)
 				}]
 
-			case 'set_prompt.prog':
+			case 'prompt_toggle.prog':
 				return [...promptArr, {
 					folder: program,
 					command: input,
-					result: set_setting(
+					result: setting(
 						input,
 						programData,
 						terminateProgram,
 						setProgramData,
 						`showPrompt`,
-						setShowPrompt
+						setShowPrompt,
+						showPrompt
 					)
 				}]
 

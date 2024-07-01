@@ -2,7 +2,7 @@ import React, { ReactNode, useState, useEffect, use } from 'react'
 import Prompt from '@/components/prompt/prompt'
 import Header from '@/components/header'
 import Navigation from '@/components/navigation'
-import { GeneralSettings, MenuItem } from '@/shared/interfaces'
+import { GeneralSettings, MenuItem, Project } from '@/shared/interfaces'
 import Social from '@/components/social'
 import { useSwipeable } from 'react-swipeable'
 import useWindowDimensions from '@/hooks/useWindowDimensions'
@@ -15,9 +15,10 @@ interface Props {
     generalSettings:    GeneralSettings
     menuItems:          MenuItem[]
     socialMedia:        MenuItem[]
+    projectList:        Project[]
 }
 
-const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialMedia }) => {
+const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialMedia, projectList }) => {
 
     const { width, height } = useWindowDimensions()
 	const router = useRouter()
@@ -74,7 +75,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 h-screen
             `}>
             {grainEffect && <div className={`grain-effect`}></div>}
-            <Prompt menuItems={menuItems} socialMedia={socialMedia} />
+            <Prompt menuItems={menuItems} socialMedia={socialMedia} projectList={projectList} />
             <main id={`content`} className={`
                 w-full
                 h-screen

@@ -14,7 +14,7 @@ interface Props {
     socialMedia:        MenuItem[];
 }
 
-const Page: React.FC<Props> = ({ generalSettings, page, projectList, menuItems, socialMedia }) => {
+const Page: React.FC<Props> = ({ generalSettings, page, projectList, menuItems, socialMedia, }) => {
 
     return (
         <>
@@ -23,7 +23,7 @@ const Page: React.FC<Props> = ({ generalSettings, page, projectList, menuItems, 
                 <meta name='description' content={page.seoMetaDesc} />
                 {parse(page.seoFullHead)}
             </Head>
-            <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia}>
+            <Layout generalSettings={generalSettings} menuItems={menuItems} socialMedia={socialMedia} projectList={projectList}>
                 <h2 className='title'><span dangerouslySetInnerHTML={{ __html: page.title }}></span></h2>
                 <div dangerouslySetInnerHTML={{ __html: page.content }}></div>
                 {page.displayPortfolioElement === true && 
