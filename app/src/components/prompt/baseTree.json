@@ -13,5 +13,8 @@
     "programs": {
         "grain_effect.prog": {},
         "prompt_toggle.prog": {}
+    },
+    "games": {
+        "bunker_boss.prog": {}
     }
 }
