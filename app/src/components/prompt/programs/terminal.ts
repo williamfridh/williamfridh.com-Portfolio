@@ -1,4 +1,5 @@
 import { Branch, File, promptObj } from "@/shared/interfaces"
+import { set } from "date-fns"
 import { NextRouter } from "next/router"
 
 const terminal = (
@@ -135,7 +136,8 @@ const terminal = (
     }
 
     const handleReset = (): promptObj[] => {
-        sessionStorage.setItem('promptArr', ``)
+        setFolder(``)
+        setBranch(root)
         return [{folder: folder, command: input, result: 'Consol reset.'}]
     }
 

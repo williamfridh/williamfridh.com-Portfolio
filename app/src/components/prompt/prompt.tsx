@@ -5,11 +5,12 @@ import promptData from './prompt.json'
 import { MenuItem } from '@/shared/interfaces'
 import { useRouter } from 'next/router'
 import usePrompt from '@/hooks/usePrompt'
-import hello_world from './program/hello_world'
-import terminal from './program/terminal'
-import setting from './program/setting'
+import hello_world from './programs/hello_world'
+import terminal from './programs/terminal'
+import setting from './programs/setting'
 import useGrainEffect from '@/hooks/useGrainEffect'
 import baseTree from './baseTree.json'
+import bunkerBoss from './games/bunkerBoss'
 
 
 
@@ -222,6 +223,18 @@ const Prompt: React.FC<PromptProps> = ({menuItems, socialMedia, projectList}) =>
 						`showPrompt`,
 						setShowPrompt,
 						showPrompt
+					)
+				}]
+
+			case 'bunker_boss.prog':
+				return [...promptArr, {
+					folder: program,
+					command: input,
+					result: bunkerBoss(
+						input,
+						programData,
+						terminateProgram,
+						setProgramData
 					)
 				}]
 
