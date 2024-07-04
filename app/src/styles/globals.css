@@ -58,7 +58,7 @@
 	li {
 		@apply w-fit relative pl-4;
 	}
-	li:not(:first-child)::before {
+	li::before {
 		content: '■';
 
 		@apply text-sm absolute left-0 top-[0.125rem] md:top-[calc(0.125rem+0.25rem)];

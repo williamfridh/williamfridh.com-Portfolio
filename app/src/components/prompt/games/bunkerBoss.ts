@@ -1,6 +1,6 @@
 /**
  * Name: "Bunker Boss"
- * Goal: Survive for 20 nights with as many people as possible.
+ * Goal: Survive for 10 nights with as many people as possible.
  * 
  * Stats: Survivors(start at 20), resources(200)
  * At the end of each day, 1 survivor costs 1 resource.
@@ -48,34 +48,40 @@ const bunkerBoss = (
     const stage0 = () => {
         data.stage = 1
         data.day = 1
-        data.resources = 200
+        data.resources = 80
         data.survivors = 20
 
         status = generateStatusText()
 
         setProgramData(JSON.stringify(data))
         let res = `## BUNKER BOSS ##`
-        res += `<br/>You are the boss of a bunker in a post-apocalyptic world. Your goal is to survive for 20 nights with as many people as possible by making the right decisions. One commend takes one day.`
+        res += `<br/>You are the boss of a bunker in a post-apocalyptic world. Your goal is to survive for 10 nights with as many people as possible by making the right decisions. One commend takes one day and one survivor required on resource per day.`
         res += `<br/><br/>${status}`
         return res
     }
 
     const scavage = () => {
-        const resources = [0,0,5,10,15,20,40,60,70]
+        const resources = [0,0,0,0,3,12,5,10,15,20,40,50]
         const random = Math.floor(Math.random() * resources.length)
-        return resources[random]
+        const res = resources[random]
+        data.resources += res
+        return res
     }
 
     const farm = () => {
         const resources = [0,5,5,10,10,15,20,30]
         const random = Math.floor(Math.random() * resources.length)
-        return resources[random]
+        const res = resources[random]
+        data.resources += res
+        return res
     }
 
     const search = () => {
         const survivors = [-3,-2,-1,0,0,1,2,4,5,8]
         const random = Math.floor(Math.random() * survivors.length)
-        return survivors[random]
+        const res = survivors[random]
+        data.survivors += res
+        return res
     }
 
     /**
@@ -86,13 +92,15 @@ const bunkerBoss = (
     const randomScenario = () => {
         const scenarios = [0,0,0,0,0,0,1,-2,-1,-1]
         const random = Math.floor(Math.random() * scenarios.length)
+        const scenarioNames = [`infection`, `unsolvable murder`, `accident`, `old age`, `virus`, `radiation`]
+        const pickedScenario = scenarioNames[Math.floor(Math.random() * scenarioNames.length)]
         switch (scenarios[random]) {
             case(-1):
                 data.survivors--
-                return 'One survivor died of infection.'
+                return `One survivor died by ${pickedScenario}.`
             case(-2):
                 data.survivors -= 2
-                return 'Two survivors died of infection.'
+                return `Two survivors died by ${pickedScenario}.`
             case(1):
                 data.survivors++
                 return 'A surviror has arived at the camp.'
@@ -102,18 +110,34 @@ const bunkerBoss = (
     }
 
     const checkForVictory = () => {
-        if (data.day > 20) {
+        if (data.day > 10) {
             return true
         }
         return false
     }
 
     const checkForLoss = () => {
-        if (data.survivors <= 0 || data.resources <= 0) {
+        if (data.survivors <= 0) {
             return true
         }
         return false
     }
+
+    const dailyCost = (): number => {
+        if (data.survivors > data.resources) {
+            const lostSurvivors = data.survivors - data.resources
+            data.survivors = data.resources
+            data.resources = 0
+            setProgramData(JSON.stringify(data))
+            return lostSurvivors
+        } else {
+            data.resources -= data.survivors
+            data.day = data.day + 1
+            setProgramData(JSON.stringify(data))
+            return 0
+        }
+    }
+
 
     const stage1 = () => {
         try {
@@ -129,18 +153,20 @@ const bunkerBoss = (
                     return ''
                 case 'scavage':
                     const scavageRes = scavage()
-                    data.resources += scavageRes
                     res = `# You scaved for resources and found ${scavageRes} resource(s).`
                     break
                 case 'farm':
                     const farmRes = farm()
-                    data.resources += farmRes
                     res = `# You farmed for resources and found ${farmRes} resource(s).`
                     break
                 case 'search':
                     const searchRes = search()
-                    data.survivors += searchRes
-                    res = `# You searched for survivors and found ${searchRes} survivor(s).`
+                    if (searchRes < 0)
+                        res = `# You searched for survivors and lost ${Math.abs(searchRes)} survivor(s).`
+                    else if (searchRes === 0)
+                        res = `# You searched for survivors but found no one.`
+                    else
+                        res = `# You searched for survivors and found ${searchRes} survivor(s).`
                     break
                 case 'wait':
                     res = `# You waited for a day.`
@@ -149,21 +175,21 @@ const bunkerBoss = (
                     throw new Error('Invalid input')
             }
             // Daily cost.
-            data.resources -= data.survivors
-            data.day = data.day + 1
-            setProgramData(JSON.stringify(data))
+            const starvationVictims = dailyCost()
+            if (starvationVictims > 0)
+                res += ` ${starvationVictims} survivor(s) died of starvation.`
+            // Random scenario.
+            res += ` ${randomScenario()}`
             // Check if the game is over.
             if (checkForLoss()) {
                 exitHandler('')
-                return `# Game Over!<br/>You lost all your survivors.`
+                return `${res}<br/><br/># Game Over!<br/>You lost all your survivors.`
             }
             // Check for victory.
             if (checkForVictory()) {
                 exitHandler('')
-                return `# Congratulations!<br/>You survived for 20 nights with ${data.survivors} survivors.`
+                return `${res}<br/><br/># Congratulations!<br/>You survived for 10 nights with ${data.survivors} survivors.`
             }
-            // Random scenario.
-            res += ` ${randomScenario()}`
             // Update status.
             return res + `<br/><br/>${generateStatusText()}`
         } catch (e: any) {
