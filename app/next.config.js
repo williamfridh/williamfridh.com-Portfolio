@@ -27,7 +27,9 @@ module.exports = {
 			// Used for allowing loading assets from remote sources.
 			{
 				protocol: 'https',
-				hostname: 'wp.williamfridh.com'
+				hostname: 'wp.williamfridh.com',
+				port: "", 								// Include for precision and solving permission issues
+				pathname: "/wp-content/uploads/**", 	// --||--
 			}
 		]
 	}
