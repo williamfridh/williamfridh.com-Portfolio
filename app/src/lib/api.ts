@@ -293,9 +293,9 @@ export const getProject = async (id: string) => {
 			  github
 			}
 			featuredImage {
-			  node {
-				uri
-			  }
+				node {
+					srcSet(size: LARGE)
+				}
 			}
 			seo {
 				metaDesc
@@ -307,6 +307,15 @@ export const getProject = async (id: string) => {
 	`
 	);
 	const p = data.project;
+	// Grab first image
+	let imgSet = p.featuredImage ? p.featuredImage.node.srcSet : null;
+	let img = null;
+	if (imgSet != null)
+	{
+		const imgSetArr = imgSet.split(",");
+		const imgArr = imgSetArr[0].split(" ");
+		img = imgArr[0];
+	}
 	return {
 		title:			p.title,
 		uri:			id,
@@ -318,7 +327,7 @@ export const getProject = async (id: string) => {
 		link:			p.projectFields.link,
 		role:			p.projectFields.role,
 		github:			p.projectFields.github,
-		image:			p.featuredImage ? p.featuredImage.node.uri : null,
+		image:			img ? img : null,
 		seoTitle:		p.seo.title,
 		seoMetaDesc:	p.seo.metaDesc,
 		seoFullHead:	p.seo.fullHead
