@@ -19,7 +19,24 @@ interface ProjectProps {
     socialMedia:        MenuItem[];
 }
 
+function createWordPressUrl(path: string): string {
+    if (!WP_URL) {
+        throw new Error('NEXT_PUBLIC_WP_URL is not configured');
+    }
+
+    if (/^https?:\/\//i.test(path)) {
+        return path;
+    }
+
+    const baseUrl = `${WP_URL.replace(/\/+$/, '')}/`;
+    const relativePath = path.replace(/^\/+/, '');
+
+    return new URL(relativePath, baseUrl).toString();
+}
+
 const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuItems, socialMedia, projectList }) => {
+
+    
     return (
         <>
             <Head>
@@ -31,7 +48,7 @@ const ProjectPage: React.FC<ProjectProps> = ({ generalSettings, project, menuIte
                 <div className='content'>
                     <h2 dangerouslySetInnerHTML={{ __html: project.title }} className='mt-8'></h2>
                     {project.image && <Image
-                        src={WP_URL + project.image}
+                        src={createWordPressUrl(project.image)}
                         alt={`Picture showing the project ${project.title}`}
                         width={768}
                         height={436}
