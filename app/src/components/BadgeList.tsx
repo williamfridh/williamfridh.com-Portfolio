@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Icon from './icon'
 
 interface BadgeListProps {
@@ -13,7 +12,7 @@ const BadgeList: React.FC<BadgeListProps> = ({ badgeList }) => {
 	const badges = badgeList.split(/, |,/).sort()
 
 	return (
-		<div className='text-zero leading-none'>
+		<div className='text-zero lead.ing-none'>
 			{badges.map((name) => (
 				<span className='inline-block mr-2 mt-2' key={name}>
 					<Icon name={name} />
@@ -21,10 +20,6 @@ const BadgeList: React.FC<BadgeListProps> = ({ badgeList }) => {
 			))}
 		</div>
 	)
-}
-
-BadgeList.propTypes = {
-	badgeList: PropTypes.string.isRequired,
 }
 
 export default BadgeList
