@@ -3,6 +3,10 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
+@theme {
+	--breakpoint-md: 768px;
+}
+
 @layer base {
 	h1 {
 		@apply text-3xl md:text-6xl lg:text-8xl;
