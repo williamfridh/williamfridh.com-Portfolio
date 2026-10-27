@@ -7,6 +7,13 @@
 	--breakpoint-md: 768px;
 }
 
+@utility transition-width {
+	transition-property: width;
+}
+@utility transition-left {
+	transition-property: left;
+}
+
 @layer base {
 	h1 {
 		@apply text-3xl md:text-6xl lg:text-8xl;
@@ -27,7 +34,7 @@
 		@apply bg-amber-400 text-neutral-800 w-fit px-4 whitespace-nowrap;
 	}
 	article h1, article h2, article h3, article h4, article h5 {
-		@apply w-full;
+		@apply w-full max-w-full min-w-0 whitespace-normal;
 	}
 	article h1, article h2, article h3 {
 		@apply text-balance;
@@ -52,7 +59,7 @@
 	}
 
 	main#content > * {
-		@apply md:w-[48rem];
+		@apply w-full min-w-0 max-w-[48rem];
 	}
 
 	/*
@@ -84,11 +91,11 @@
 
 	@media (width >= theme(--breakpoint-md)) {
 		main#content._layout-ready._full {
-			@apply w-full;
+			@apply w-full!;
 		}
 		main#content._layout-ready._scaled,
 		main#content:not(._layout-ready) {
-			@apply w-3/4;
+			@apply w-3/4!;
 		}
 	}
 

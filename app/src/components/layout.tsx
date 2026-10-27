@@ -92,7 +92,7 @@ const Layout: React.FC<Props> = ({ children, generalSettings, menuItems, socialM
                 transition-width
                 ${layoutReady && `_layout-ready duration-200`}
             `}>
-                <div className={`h-fit mb-32 w-full sm:w-auto`}>
+                <div className={`h-fit mb-32 w-full min-w-0 max-w-[48rem]`}>
                     <Header generalSettings={generalSettings} />
                     <Navigation menuItems={menuItems} />
                     <Social socialMedia={socialMedia} />

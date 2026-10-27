@@ -22,8 +22,10 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 	return (
 		<div className={`
 			grid
+			w-full
+			min-w-0
 			grid-cols-1
-			sm:grid-cols-[min-content_auto]
+			sm:grid-cols-[min-content_minmax(0,1fr)]
 			gap-y-8
 			sm:gap-y-16
 			mt-8
@@ -43,13 +45,18 @@ const Portfolio: React.FC<Props> = ({ projectList }) => {
 					</div>
 					<div className={`
 						sm:col-span-1
+						min-w-0
+						w-full
 						border-amber-400
 						border-l-4
 						sm:border-0
 						mb-4
 						sm:mb-0
 						`}>
-						<h3 className={`flex justify-between`}><>{project.title}</><span className={`sm:hidden`}>{timePeriodFormatting(project)}</span></h3>
+						<h3 className={`flex w-full min-w-0 items-start justify-between gap-4`}>
+							<span className={`min-w-0`}>{project.title}</span>
+							<span className={`shrink-0 sm:hidden`}>{timePeriodFormatting(project)}</span>
+						</h3>
 						<div className={`pl-4 sm:pl-0`}>
 							<p>{project.summary}</p>
 							<BadgeList badgeList={project.techStack} />
