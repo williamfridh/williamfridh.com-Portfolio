@@ -2,10 +2,40 @@
     "recipes": {
         "pancakes.txt": {
             "content": "Ingredients are flour, milk, eggs, sugar, and butter. Mix all ingredients in a bowl\nHeat a pan\nPour a small amount of the mixture into the pan\nCook until golden brown\nServe with syrup."
+        },
+        "scrambled_eggs.txt": {
+            "content": "Ingredients are eggs, butter, and salt. Crack the eggs into a bowl\nWhisk until the yolks and whites are mixed\nMelt butter in a pan over low heat\nPour in the eggs and stir gently\nTake the pan off the heat while they are still slightly soft\nServe right away."
+        },
+        "pasta.txt": {
+            "content": "Ingredients are pasta, salt, olive oil, garlic, and tomatoes. Boil a pot of salted water\nCook the pasta until tender\nWarm olive oil in a pan and cook the garlic briefly\nAdd chopped tomatoes and simmer\nDrain the pasta and toss it with the sauce\nServe with a little more olive oil."
+        },
+        "grilled_cheese.txt": {
+            "content": "Ingredients are bread, cheese, and butter. Butter one side of each slice of bread\nPlace cheese between the slices, buttered sides out\nHeat a pan over medium heat\nCook until the bread is golden and the cheese melts\nFlip once\nServe while it is still hot."
+        },
+        "oatmeal.txt": {
+            "content": "Ingredients are oats, milk, salt, and honey. Pour milk into a small pot\nStir in the oats and a pinch of salt\nSimmer, stirring, until the oats are soft\nTake the pot off the heat\nSweeten with honey\nServe warm."
+        },
+        "french_toast.txt": {
+            "content": "Ingredients are bread, eggs, milk, cinnamon, and butter. Whisk the eggs, milk, and cinnamon in a bowl\nDip each slice of bread in the mixture\nMelt butter in a pan\nCook the bread until both sides are golden\nServe with a little extra cinnamon."
+        },
+        "tomato_soup.txt": {
+            "content": "Ingredients are tomatoes, onion, garlic, broth, and salt. Chop the onion and garlic\nCook them in a pot until soft\nAdd chopped tomatoes and broth\nSimmer until the tomatoes break down\nBlend until smooth\nSeason with salt and serve."
+        },
+        "rice.txt": {
+            "content": "Ingredients are rice, water, and salt. Rinse the rice\nAdd it to a pot with water and a pinch of salt\nBring the water to a boil\nCover and simmer until the water is absorbed\nLet it rest off the heat\nFluff with a fork and serve."
+        },
+        "guacamole.txt": {
+            "content": "Ingredients are avocado, lime, onion, salt, and tomato. Cut the avocado in half and scoop it into a bowl\nMash it with a fork\nStir in chopped onion and tomato\nSqueeze in lime juice\nAdd salt\nServe right away."
+        },
+        "hot_chocolate.txt": {
+            "content": "Ingredients are milk, cocoa powder, and sugar. Warm the milk in a small pot\nWhisk in the cocoa powder and sugar\nKeep whisking until it is smooth and hot\nDo not let it boil\nPour into a mug and serve."
         }
     },
     "kth_knowledge.txt": {
         "content": "Mathematics<br />Computer Programming<br />Engineering and Communication<br />Digital Electronics<br />Modern Software Development<br />Computer Security<br />Industrial Economics"
+    },
+    "kth_advanced_courses.txt": {
+        "content": "DD2380 Artificial Intelligence<br />DD1420 Foundations of Machine Learning<br />DA2205 Introduction to the Philosophy of Science and Research Methodology<br />DD2434 Machine Learning, Advanced Course<br />DD2420 Probabilistic Graphical Models<br />DD2401 Neuroscience<br />DD2424 Deep Learning in Data Science<br />DD2437 Artificial Neural Networks and Deep Architectures<br />DD2410 Introduction to Robotics<br />DD2257 Visualization<br />EL2805 Reinforcement Learning<br />ID2223 Scalable Machine Learning and Deep Learning"
     },
     "old_projects.txt": {
         "content": "A CMS with support for posts, pages, plugins, and themes.<br />A platform that offered free hosting for HTML, CSS, JavaScript, and images, accessible via a custom subdomain (intended for educational purposes).<br />A platform for creating, and managing digital quotes.<br />An order management system (collab).<br />And so on…"
